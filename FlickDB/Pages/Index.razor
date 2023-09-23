@@ -1,0 +1,37 @@
+﻿@page "/"
+
+@inject MovieContext Database
+
+<PageTitle>FlickDB - Home</PageTitle>
+
+<h1>FlickDB</h1>
+
+<h2>List all movies and actors</h2>
+
+@foreach (var movie in Movies)
+{
+    <h3>@movie.Title</h3>
+    <p>@movie.Format</p>
+    <p>@movie.Duration</p>
+    <p>@movie.Release</p>
+    <p>@movie.Rating</p>
+    
+        @foreach (var actor in movie.Moviesactors)
+        {
+            <p>@actor.Actor.Firstname @actor.Actor.Lastname - @actor.Actor.Birth</p>
+        }
+}
+
+@code {
+
+    public List<Movie>? Movies { get; set; } = new List<Movie>();
+
+    public List<Moviesactor>? MoviesActors { get; set; } = new List<Moviesactor>();
+
+    public List<Actor>? Actors { get; set; } = new List<Actor>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Movies = await Database.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).ToListAsync();
+    }
+}
