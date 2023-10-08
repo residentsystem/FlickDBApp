@@ -17,9 +17,11 @@ public partial class Movie
 
     public string? Rating { get; set; }
 
-    public byte[]? Symbol { get; set; }
+    public string? Symbol { get; set; }
 
-    public byte[]? Poster { get; set; }
+    public string? Poster { get; set; }
+
+    public string? Story { get; set; }
 
     public virtual ICollection<Moviesactor> Moviesactors { get; } = new List<Moviesactor>();
 

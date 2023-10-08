@@ -13,7 +13,7 @@ public partial class Actor
 
     public DateOnly? Birth { get; set; }
 
-    public byte[]? Picture { get; set; }
+    public string? Picture { get; set; }
 
     public virtual ICollection<Moviesactor> Moviesactors { get; } = new List<Moviesactor>();
 }

@@ -4,34 +4,24 @@
 
 <PageTitle>FlickDB - Home</PageTitle>
 
-<h1>FlickDB</h1>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-<h2>List all movies and actors</h2>
-
-@foreach (var movie in Movies)
-{
-    <h3>@movie.Title</h3>
-    <p>@movie.Format</p>
-    <p>@movie.Duration</p>
-    <p>@movie.Release</p>
-    <p>@movie.Rating</p>
-    
-        @foreach (var actor in movie.Moviesactors)
-        {
-            <p>@actor.Actor.Firstname @actor.Actor.Lastname - @actor.Actor.Birth</p>
-        }
-}
+            @foreach (var movie in Movies)
+            {
+                <ShowPoster MovieId=movie.Movieid />
+            }
+        </div>
+    </div>
+</div>
 
 @code {
+  public List<Movie> Movies { get; set; } = new List<Movie>();
 
-    public List<Movie>? Movies { get; set; } = new List<Movie>();
-
-    public List<Moviesactor>? MoviesActors { get; set; } = new List<Moviesactor>();
-
-    public List<Actor>? Actors { get; set; } = new List<Actor>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        Movies = await Database.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).ToListAsync();
-    }
+  protected override async Task OnInitializedAsync()
+  {
+    if (Database.Movies != null)
+      Movies = await Database.Movies.ToListAsync();
+  }
 }

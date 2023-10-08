@@ -13,7 +13,7 @@ public partial class Crew
 
     public DateOnly? Birth { get; set; }
 
-    public byte[]? Picture { get; set; }
+    public string? Picture { get; set; }
 
     public virtual ICollection<Moviescrew> Moviescrews { get; } = new List<Moviescrew>();
 }

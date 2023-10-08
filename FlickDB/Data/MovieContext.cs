@@ -64,7 +64,7 @@ public partial class MovieContext : DbContext
                 .HasMaxLength(40)
                 .HasColumnName("lastname");
             entity.Property(e => e.Picture)
-                .HasColumnType("blob")
+                .HasMaxLength(50)
                 .HasColumnName("picture");
         });
 
@@ -83,7 +83,7 @@ public partial class MovieContext : DbContext
                 .HasMaxLength(40)
                 .HasColumnName("lastname");
             entity.Property(e => e.Picture)
-                .HasColumnType("blob")
+                .HasMaxLength(50)
                 .HasColumnName("picture");
         });
 
@@ -115,18 +115,21 @@ public partial class MovieContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("format");
             entity.Property(e => e.Poster)
-                .HasColumnType("blob")
+                .HasMaxLength(50)
                 .HasColumnName("poster");
             entity.Property(e => e.Rating)
                 .HasMaxLength(40)
                 .HasColumnName("rating");
             entity.Property(e => e.Release).HasColumnName("release");
             entity.Property(e => e.Symbol)
-                .HasColumnType("blob")
+                .HasMaxLength(50)
                 .HasColumnName("symbol");
             entity.Property(e => e.Title)
                 .HasMaxLength(80)
                 .HasColumnName("title");
+            entity.Property(e => e.Story)
+                .HasMaxLength(600)
+                .HasColumnName("story");
         });
 
         modelBuilder.Entity<Moviesactor>(entity =>
