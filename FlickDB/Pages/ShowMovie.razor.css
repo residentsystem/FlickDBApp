@@ -1,13 +1,5 @@
 /* -------------------------------------------- Body -------------------------------------------- */
 
-.bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-
 .bi {
     vertical-align: -.125em;
     fill: currentColor;
@@ -44,16 +36,4 @@ img.symbol {
     display: block;
     height: 71px;
     width: 147px;
-}
-
-/* -------------------------------------------- Media -------------------------------------------- */
-
-@media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-    }
-}
-
-@media (min-width: 768px) {
-    .h-md-250 { height: 250px; }
 }
