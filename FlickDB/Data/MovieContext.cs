@@ -75,13 +75,16 @@ public partial class MovieContext : DbContext
             entity.ToTable("crews");
 
             entity.Property(e => e.Crewid).HasColumnName("crewid");
-            entity.Property(e => e.Birth).HasColumnName("birth");
             entity.Property(e => e.Firstname)
                 .HasMaxLength(40)
                 .HasColumnName("firstname");
             entity.Property(e => e.Lastname)
                 .HasMaxLength(40)
                 .HasColumnName("lastname");
+            entity.Property(e => e.Birth).HasColumnName("birth");
+            entity.Property(e => e.Position)
+                .HasMaxLength(40)
+                .HasColumnName("position");
             entity.Property(e => e.Picture)
                 .HasMaxLength(50)
                 .HasColumnName("picture");
@@ -179,9 +182,6 @@ public partial class MovieContext : DbContext
                 .HasColumnName("moviecrewid");
             entity.Property(e => e.Movieid).HasColumnName("movieid");
             entity.Property(e => e.Crewid).HasColumnName("crewid");
-            entity.Property(e => e.Position)
-                .HasMaxLength(40)
-                .HasColumnName("position");
 
             entity.HasOne(d => d.Crew).WithMany(p => p.Moviescrews)
                 .HasForeignKey(d => d.Crewid)

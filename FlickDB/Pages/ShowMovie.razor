@@ -100,9 +100,21 @@
 // -------------------------------------------- Actors --------------------------------------------
 
 <div class="container my-5">
+  <h2>Actors</h2>
   <div class="row mb-2">
 
-    <ShowActor Movie=Movie />
+    <ShowActor Movie=MovieActor />
+
+  </div>
+</div>
+
+// -------------------------------------------- Crews --------------------------------------------
+
+<div class="container my-5">
+  <h2>Crews</h2>
+  <div class="row mb-2">
+
+    <ShowCrew Movie=MovieCrew />
 
   </div>
 </div>
@@ -114,9 +126,15 @@
 
     Movie? Movie { get; set; }
 
+    Movie? MovieActor { get; set; }
+
+    Movie? MovieCrew { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
       if (Database.Movies != null)
         Movie = await Database.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == MovieId);
+        MovieActor = await Database.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == MovieId);
+        MovieCrew = await Database.Movies.Include(mc => mc.Moviescrews).ThenInclude(c => c.Crew).FirstOrDefaultAsync(m => m.Movieid == MovieId);
     }
 }

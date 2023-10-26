@@ -7,8 +7,6 @@ public partial class Moviescrew
 {
     public int Moviecrewid { get; set; }
 
-    public string Position { get; set; } = null!;
-
     public int Movieid { get; set; }
 
     public int Crewid { get; set; }
