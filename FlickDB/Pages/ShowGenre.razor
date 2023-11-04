@@ -1,0 +1,47 @@
+@page "/ShowGenre"
+
+@inject MovieContext Database
+
+<a href="#" class="list-group-item list-group-item-action">Category</a>
+
+@if (Genres != null)
+{
+  @foreach (var genre in Genres) 
+  {
+    <a href="#" class="list-group-item list-group-item-action list-group-item-primary d-flex gap-2 py-2" aria-current="true">
+      <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          <p class="mb-0 opacity-75">@genre.Genre1</p>
+        </div>
+      </div>
+    </a>
+  }
+}
+else
+{
+  <a href="#" class="list-group-item list-group-item-action list-group-item-primary d-flex gap-3 py-3" aria-current="true">
+    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+    <div class="d-flex gap-2 w-100 justify-content-between">
+      <div>
+        <p class="mb-0 opacity-75">Genre not found</p>
+      </div>
+    </div>
+  </a>
+}
+
+@code
+{
+    [Parameter]
+    public Movie? Movie { get; set; }
+
+    List<Genre> Genres { get; set; } = new List<Genre>();
+
+    protected override async Task OnInitializedAsync()
+    {
+      if (Movie != null)
+      {
+        Genres = await Task.FromResult(Movie.Moviesgenres.Select(g => g.Genre).ToList());
+      }
+    }
+}
