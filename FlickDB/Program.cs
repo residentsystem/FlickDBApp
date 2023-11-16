@@ -4,19 +4,19 @@ using FlickDB.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
-{
-    config.SetBasePath(Directory.GetCurrentDirectory());
-    config.AddJsonFile("moviesettings.json", optional: true, reloadOnChange: true);
-})
-.UseContentRoot(Directory.GetCurrentDirectory());
+//if (!File.Exists("moviesettings.json"))
+//{
+//    throw new SettingFileNullReferenceException();
+//}
+
+builder.Configuration.AddJsonFile("moviesettings.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 // Database Services
-builder.Services.AddDbContext<MovieContext>();
+builder.Services.AddDbContextFactory<MovieContext>();
 builder.Services.AddSingleton<IDatabaseConnection, DatabaseConnection>();
 
 // Settings Services

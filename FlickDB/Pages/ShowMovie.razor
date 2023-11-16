@@ -1,6 +1,6 @@
 @page "/showmovie/{MovieId:int}"
 
-@inject MovieContext Database
+@inject IDbContextFactory<MovieContext> DbFactory
 
 @if (Movie != null)
 {
@@ -97,7 +97,7 @@
           </div>
           <div class="col-md-6">
             <div class="list-group d-flex flex-column p-3 gap-3 py-md-5">
-              <ShowGenre Movie=MovieGenre />
+              <ShowGenre MovieId=MovieId />
             </div>
 
           </div>
@@ -121,7 +121,7 @@
   <h2>Actors</h2>
   <div class="row mb-2">
 
-    <ShowActor Movie=MovieActor />
+    <ShowActor MovieId=MovieId />
 
   </div>
 </div>
@@ -132,7 +132,7 @@
   <h2>Crews</h2>
   <div class="row mb-2">
 
-    <ShowCrew Movie=MovieCrew />
+    <ShowCrew MovieId=MovieId />
 
   </div>
 </div>
@@ -144,20 +144,16 @@
 
     Movie? Movie { get; set; }
 
-    Movie? MovieActor { get; set; }
-
-    Movie? MovieCrew { get; set; }
-
-    Movie? MovieGenre { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
-      if (Database.Movies != null)
+      using (var db = DbFactory.CreateDbContext())
       {
-        Movie = await Database.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == MovieId);
-        MovieActor = await Database.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == MovieId);
-        MovieCrew = await Database.Movies.Include(mc => mc.Moviescrews).ThenInclude(c => c.Crew).FirstOrDefaultAsync(m => m.Movieid == MovieId);
-        MovieGenre = await Database.Movies.Include(mg => mg.Moviesgenres).ThenInclude(g => g.Genre).FirstOrDefaultAsync(m => m.Movieid == MovieId);
+        if (db.Movies != null)
+        {
+          Movie = await db.Movies.FirstOrDefaultAsync(m => m.Movieid == MovieId);
+        }
+        
+        db.Dispose();
       }
     }
 }

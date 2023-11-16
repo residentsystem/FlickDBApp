@@ -1,6 +1,6 @@
 @page "/ShowGenre"
 
-@inject MovieContext Database
+@inject IDbContextFactory<MovieContext> DbFactory
 
 <a href="#" class="list-group-item list-group-item-action">Category</a>
 
@@ -33,15 +33,25 @@ else
 @code
 {
     [Parameter]
-    public Movie? Movie { get; set; }
+    public int MovieId { get; set; }
+
+    Movie? MovieGenre { get; set; }
 
     List<Genre> Genres { get; set; } = new List<Genre>();
 
     protected override async Task OnInitializedAsync()
     {
-      if (Movie != null)
+      using (var db = DbFactory.CreateDbContext())
       {
-        Genres = await Task.FromResult(Movie.Moviesgenres.Select(g => g.Genre).ToList());
+        if (db.Movies != null)
+        {
+          MovieGenre = await db.Movies.Include(mg => mg.Moviesgenres).ThenInclude(g => g.Genre).FirstOrDefaultAsync(m => m.Movieid == MovieId);
+        }
+
+        if (MovieGenre != null)
+          Genres = await Task.FromResult(MovieGenre.Moviesgenres.Select(g => g.Genre).ToList());
+        
+        db.Dispose();
       }
     }
 }

@@ -1,22 +1,23 @@
 @page "/showposter"
 
-@inject MovieContext Database
+@using FlickDB.Models;
+
 @inject NavigationManager UriHelper
 
-@if (Movie != null)
+@if (Poster != null)
 {
     // -------------------------------------------- Posters --------------------------------------------
 
     <div class="col">
         <div class="card shadow-sm">
-            <img class="poster" src="/images/poster/@Movie.Poster" alt="@Movie.Title" />
+            <img class="poster" src="/images/poster/@Poster.Poster" alt="@Poster.Title" />
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="OnClick">View</button>
                         <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
-                    <small class="text-body-secondary">@Movie.Duration mins</small>
+                    <small class="text-body-secondary">@Poster.Duration mins</small>
                 </div>
             </div>
         </div>
@@ -29,18 +30,11 @@ else
 
 @code {
     [Parameter]
-    public int MovieId { get; set; }
-
-    public Movie? Movie { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (Database.Movies != null)
-            Movie = await Database.Movies.FindAsync(MovieId);
-    }
+    public Movieposter? Poster { get; set; }
 
     private void OnClick()
     {
-        UriHelper.NavigateTo($"ShowMovie/{MovieId}");
+        if (Poster != null)
+        UriHelper.NavigateTo($"ShowMovie/{Poster.Movieid}");
     }
 }

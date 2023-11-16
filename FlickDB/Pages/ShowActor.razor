@@ -1,5 +1,7 @@
 @page "/ShowActor"
 
+@inject IDbContextFactory<MovieContext> DbFactory
+
 @if (Actors != null)
 {
   @foreach (var actor in Actors)
@@ -33,15 +35,25 @@ else
 @code
 {
     [Parameter]
-    public Movie? Movie { get; set; }
+    public int MovieId { get; set; }
+
+    Movie? MovieActor { get; set; }
 
     List<Actor> Actors { get; set; } = new List<Actor>();
 
     protected override async Task OnInitializedAsync()
     {
-      if (Movie != null)
+      using (var db = DbFactory.CreateDbContext())
       {
-        Actors = await Task.FromResult(Movie.Moviesactors.Select(a => a.Actor).ToList());
+        if (db.Movies != null)
+        {
+          MovieActor = await db.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == MovieId);
+        }
+
+        if (MovieActor != null)
+          Actors = await Task.FromResult(MovieActor.Moviesactors.Select(a => a.Actor).ToList());
+        
+        db.Dispose();
       }
     }
 }

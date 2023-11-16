@@ -1,6 +1,8 @@
 ﻿@page "/"
 
-@inject MovieContext Database
+@using FlickDB.Models;
+
+@inject IDbContextFactory<MovieContext> DbFactory
 
 <PageTitle>FlickDB - Home</PageTitle>
 
@@ -8,20 +10,34 @@
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-            @foreach (var movie in Movies)
+            @foreach (var poster in Posters)
             {
-                <ShowPoster MovieId=movie.Movieid />
+                <ShowPoster Poster=poster />
             }
+            
         </div>
     </div>
 </div>
 
 @code {
-  public List<Movie> Movies { get; set; } = new List<Movie>();
+  public List<Movieposter> Posters { get; set; } = new List<Movieposter>();
 
   protected override async Task OnInitializedAsync()
   {
-    if (Database.Movies != null)
-      Movies = await Database.Movies.ToListAsync();
+    using (var db = DbFactory.CreateDbContext())
+    {
+      if (db.Movies != null)
+        Posters = await db.Movies
+          .Select(movie => new Movieposter
+          {
+            Movieid = movie.Movieid,
+            Title = movie.Title,
+            Poster = movie.Poster,
+            Duration = movie.Duration
+          })
+          .ToListAsync();
+
+      db.Dispose();
+    }
   }
 }
