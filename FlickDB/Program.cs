@@ -22,6 +22,9 @@ builder.Services.AddSingleton<IDatabaseConnection, DatabaseConnection>();
 // Settings Services
 builder.Services.AddSingleton<ISettingService, SettingService>();
 
+// Movie Form Services
+builder.Services.AddScoped<MovieForm>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

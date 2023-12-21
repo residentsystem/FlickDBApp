@@ -9,7 +9,7 @@ public partial class Movieposter
     
     public string? Title { get; set; }
 
-    public TimeOnly? Duration { get; set; }
+    public TimeSpan? Duration { get; set; }
 
     public string? Poster { get; set; }
 }

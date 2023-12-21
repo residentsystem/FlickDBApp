@@ -11,7 +11,7 @@ public partial class Movie
 
     public string? Format { get; set; }
 
-    public TimeOnly? Duration { get; set; }
+    public TimeSpan? Duration { get; set; }
 
     public DateOnly? Release { get; set; }
 
