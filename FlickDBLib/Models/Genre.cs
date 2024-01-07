@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FlickDB.Models;
+namespace FlickDBLib.Models;
 
 public partial class Genre
 {
@@ -9,5 +9,5 @@ public partial class Genre
 
     public string? Genre1 { get; set; }
 
-    public virtual ICollection<Moviesgenre> Moviesgenres { get; } = new List<Moviesgenre>();
+    public virtual ICollection<MovieGenre> Moviesgenres { get; } = new List<MovieGenre>();
 }

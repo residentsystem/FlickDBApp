@@ -106,33 +106,17 @@
     {
         IsValidSubmit = true;
 
-        var movie = new Movie
+        IMovieCreator movieCreator = new MovieService(DbFactory, MovieForm);
+        bool isSuccess = await movieCreator.AddMovie();
+        if (isSuccess)
         {
-            Title = MovieForm.Title,
-            Format = MovieForm.Format,
-            Duration = MovieForm.Duration,
-            Release = MovieForm.Release,
-            Rating = MovieForm.GetRatingDescription(),
-            Symbol = MovieForm.GetRatingSymbol(),
-            Story = MovieForm.Story
-        };
-
-        using (var db = DbFactory.CreateDbContext())
-        {
-            if (db.Movies != null)
-            {
-                db.Movies.Add(movie);
-                await db.SaveChangesAsync();
-            }
-        
-            db.Dispose();
+            NavManager.NavigateTo("/");
         }
     }
 
     private void HandleInvalidSubmit()
     {
         IsValidSubmit = false;
-        //NavManager.NavigateTo("/");
     }
 
     private void IncrementHour()

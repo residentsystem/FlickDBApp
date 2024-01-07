@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using FlickDB.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
 //if (!File.Exists("moviesettings.json"))
@@ -17,10 +13,10 @@ builder.Services.AddServerSideBlazor();
 
 // Database Services
 builder.Services.AddDbContextFactory<MovieContext>();
-builder.Services.AddSingleton<IDatabaseConnection, DatabaseConnection>();
+builder.Services.AddSingleton<IDatabaseConnector, DatabaseService>();
 
 // Settings Services
-builder.Services.AddSingleton<ISettingService, SettingService>();
+builder.Services.AddSingleton<ISettingReader, SettingService>();
 
 // Movie Form Services
 builder.Services.AddScoped<MovieForm>();

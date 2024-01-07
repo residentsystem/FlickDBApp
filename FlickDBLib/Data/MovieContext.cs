@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using FlickDBLib.Models;
 
-namespace FlickDB.Data;
+namespace FlickDBLib.Data;
 
 public partial class MovieContext : DbContext
 {
     private IConfiguration _configuration;
 
-    private IDatabaseConnection _database;
+    private IDatabaseConnector _database;
 
-    public MovieContext(IConfiguration configuration, IDatabaseConnection database)
+    public MovieContext(IConfiguration configuration, IDatabaseConnector database)
     {
         _configuration = configuration;
         _database = database;
@@ -24,11 +25,11 @@ public partial class MovieContext : DbContext
 
     public virtual DbSet<Movie>? Movies { get; set; }
 
-    public virtual DbSet<Moviesactor>? Moviesactors { get; set; }
+    public virtual DbSet<MovieActor>? Moviesactors { get; set; }
 
-    public virtual DbSet<Moviescrew>? Moviescrews { get; set; }
+    public virtual DbSet<MovieCrew>? Moviescrews { get; set; }
 
-    public virtual DbSet<Moviesgenre>? Moviesgenres { get; set; }
+    public virtual DbSet<MovieGenre>? Moviesgenres { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -135,7 +136,7 @@ public partial class MovieContext : DbContext
                 .HasColumnName("story");
         });
 
-        modelBuilder.Entity<Moviesactor>(entity =>
+        modelBuilder.Entity<MovieActor>(entity =>
         {
             entity.HasKey(e => new { e.Movieactorid, e.Movieid, e.Actorid })
                 .HasName("PRIMARY")
@@ -165,7 +166,7 @@ public partial class MovieContext : DbContext
                 .HasConstraintName("moviesactors_movies");
         });
 
-        modelBuilder.Entity<Moviescrew>(entity =>
+        modelBuilder.Entity<MovieCrew>(entity =>
         {
             entity.HasKey(e => new { e.Moviecrewid, e.Movieid, e.Crewid })
                 .HasName("PRIMARY")
@@ -192,7 +193,7 @@ public partial class MovieContext : DbContext
                 .HasConstraintName("moviescrews_movies");
         });
 
-        modelBuilder.Entity<Moviesgenre>(entity =>
+        modelBuilder.Entity<MovieGenre>(entity =>
         {
             entity.HasKey(e => new { e.Moviegenreid, e.Movieid, e.Genreid })
                 .HasName("PRIMARY")

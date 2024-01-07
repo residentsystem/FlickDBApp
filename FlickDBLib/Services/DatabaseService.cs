@@ -1,6 +1,6 @@
-namespace FlickDBLib.Database
+namespace FlickDBLib.Services
 {
-    public class DatabaseConnection : IDatabaseConnection
+    public class DatabaseService : IDatabaseConnector
     {
         private IConfiguration _configuration;
 
@@ -10,7 +10,7 @@ namespace FlickDBLib.Database
         
         public string? Message { get; set; }
 
-        public DatabaseConnection(IConfiguration configuration, IWebHostEnvironment environment)
+        public DatabaseService(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _configuration = configuration;
             _environment = environment;

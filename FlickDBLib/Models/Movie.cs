@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FlickDB.Models;
+namespace FlickDBLib.Models;
 
 public partial class Movie
 {
@@ -23,9 +23,9 @@ public partial class Movie
 
     public string? Story { get; set; }
 
-    public virtual ICollection<Moviesactor> Moviesactors { get; } = new List<Moviesactor>();
+    public virtual ICollection<MovieActor> Moviesactors { get; } = new List<MovieActor>();
 
-    public virtual ICollection<Moviescrew> Moviescrews { get; } = new List<Moviescrew>();
+    public virtual ICollection<MovieCrew> Moviescrews { get; } = new List<MovieCrew>();
 
-    public virtual ICollection<Moviesgenre> Moviesgenres { get; } = new List<Moviesgenre>();
+    public virtual ICollection<MovieGenre> Moviesgenres { get; } = new List<MovieGenre>();
 }

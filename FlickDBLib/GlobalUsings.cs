@@ -9,6 +9,7 @@ global using global::Microsoft.Extensions.Configuration;
 global using global::Microsoft.Extensions.DependencyInjection;
 global using global::Microsoft.Extensions.Hosting;
 global using global::Microsoft.Extensions.Logging;
+
 global using global::System;
 global using global::System.Diagnostics;
 global using global::System.Collections.Generic;
@@ -20,7 +21,11 @@ global using global::System.Threading;
 global using global::System.Threading.Tasks;
 global using global::System.ComponentModel.DataAnnotations;
 
-global using global::FlickDBLib.Database;
+global using global::FlickDBLib.Data;
+global using global::FlickDBLib.Interface;
+global using global::FlickDBLib.Mail;
+global using global::FlickDBLib.Models;
+global using global::FlickDBLib.Services;
 
 global using global::Microsoft.EntityFrameworkCore;
 global using global::Microsoft.EntityFrameworkCore.Metadata.Builders;

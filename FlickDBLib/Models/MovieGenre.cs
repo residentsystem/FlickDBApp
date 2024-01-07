@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FlickDB.Models;
+namespace FlickDBLib.Models;
 
-public partial class Moviesgenre
+public partial class MovieGenre
 {
     public int Moviegenreid { get; set; }
 

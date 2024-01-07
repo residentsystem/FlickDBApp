@@ -1,7 +1,5 @@
 ﻿@page "/"
 
-@using FlickDB.Models;
-
 @inject IDbContextFactory<MovieContext> DbFactory
 
 <PageTitle>FlickDB - Home</PageTitle>
@@ -20,7 +18,7 @@
 </div>
 
 @code {
-  public List<Movieposter> Posters { get; set; } = new List<Movieposter>();
+  public List<MoviePoster> Posters { get; set; } = new List<MoviePoster>();
 
   protected override async Task OnInitializedAsync()
   {
@@ -28,7 +26,7 @@
     {
       if (db.Movies != null)
         Posters = await db.Movies
-          .Select(movie => new Movieposter
+          .Select(movie => new MoviePoster
           {
             Movieid = movie.Movieid,
             Title = movie.Title,

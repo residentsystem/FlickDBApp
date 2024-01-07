@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FlickDB.Models;
+namespace FlickDBLib.Models;
 
 public partial class Crew
 {
@@ -17,5 +17,5 @@ public partial class Crew
 
     public string? Picture { get; set; }
 
-    public virtual ICollection<Moviescrew> Moviescrews { get; } = new List<Moviescrew>();
+    public virtual ICollection<MovieCrew> Moviescrews { get; } = new List<MovieCrew>();
 }

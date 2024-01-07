@@ -68,4 +68,9 @@ public class MovieForm
         else
             return "";
     }
+
+    public string GetPosterFileName(string title)
+    {
+        return title.Replace(" ", "-") + ".jpg";
+    }
 }

@@ -24,15 +24,17 @@ global using global::System.Threading.Tasks;
 global using global::System.ComponentModel.DataAnnotations;
 
 global using global::FlickDB.Configurations;
-global using global::FlickDB.Data;
-global using global::FlickDB.Interfaces.Setting;
-global using global::FlickDB.Models;
-global using global::FlickDB.Services.Setting;
+global using global::FlickDB.Interfaces;
+global using global::FlickDB.Services;
+
+global using global::FlickDBLib.Data;
+global using global::FlickDBLib.Interface;
+global using global::FlickDBLib.Mail;
+global using global::FlickDBLib.Models;
+global using global::FlickDBLib.Services;
+
 global using global::MailKit.Net.Smtp;
 global using global::MimeKit;
-
-global using global::FlickDBLib.Database;
-global using global::FlickDBLib.Mail;
 
 global using global::Microsoft.EntityFrameworkCore;
 global using global::Microsoft.EntityFrameworkCore.Metadata.Builders;

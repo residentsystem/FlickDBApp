@@ -1,4 +1,4 @@
-namespace FlickDBLib.Database
+namespace FlickDBLib.Models
 {
     public class DatabaseEnvironment
     {

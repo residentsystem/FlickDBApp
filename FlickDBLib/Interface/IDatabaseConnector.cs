@@ -1,6 +1,6 @@
-namespace FlickDBLib.Database
+namespace FlickDBLib.Interface
 {
-    public interface IDatabaseConnection
+    public interface IDatabaseConnector
     {
         string GetConnectionString(DatabaseEnvironment connectionstring);
         

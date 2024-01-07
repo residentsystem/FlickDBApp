@@ -1,7 +1,5 @@
 @page "/showposter"
 
-@using FlickDB.Models;
-
 @inject NavigationManager UriHelper
 
 @if (Poster != null)
@@ -30,7 +28,7 @@ else
 
 @code {
     [Parameter]
-    public Movieposter? Poster { get; set; }
+    public MoviePoster? Poster { get; set; }
 
     private void OnClick()
     {

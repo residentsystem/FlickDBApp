@@ -1,6 +1,6 @@
-namespace FlickDB.Services.Setting;
+namespace FlickDB.Services;
 
-public class SettingService : ISettingService
+public class SettingService : ISettingReader
 {
     public SettingService(IConfiguration configuration)
     {
