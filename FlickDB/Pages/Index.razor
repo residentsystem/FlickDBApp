@@ -20,24 +20,12 @@
 </div>
 
 @code {
-  public List<MoviePoster> Posters { get; set; } = new List<MoviePoster>();
+
+  public IEnumerable<MoviePoster> Posters { get; set; } = new List<MoviePoster>();
 
   protected override async Task OnInitializedAsync()
   {
-    using (var db = DbFactory.CreateDbContext())
-    {
-      if (db.Movies != null)
-        Posters = await db.Movies
-          .Select(movie => new MoviePoster
-          {
-            Movieid = movie.Movieid,
-            Title = movie.Title,
-            Poster = movie.Poster,
-            Duration = movie.Duration
-          })
-          .ToListAsync();
-
-      db.Dispose();
-    }
+    IMovieReader movieReader = new MovieService(DbFactory);
+    Posters = await movieReader.ReadAllMovies();
   }
 }

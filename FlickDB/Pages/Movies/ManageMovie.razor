@@ -6,11 +6,11 @@
   <div class="container my-5">
     <div class="row p-2 pb-2 pe-lg-2 pt-lg-2 align-items-center rounded-3 border shadow-sm">
       <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
-        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleAlertVisibility" disabled="@isDeleteDisabled">Delete</button>
-        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" disabled="@isUpdatedDisabled">Update</button>
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleDeleteVisibility" disabled="@isDeleteButtonDisabled">Delete</button>
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleUpdateVisibility" disabled="@isUpdateButtonDisabled">Update</button>
       </div>
-      @if (isAlertVisible)
-{
+      @if (isDeleteAlertVisible)
+      {
       <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
         <div class="alert alert-danger" role="alert">
           <h4 class="alert-heading">Are you sure?</h4>
@@ -21,22 +21,40 @@
       </div>
       <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="DeleteMovie">Yes</button>
-        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleAlertVisibility">No</button>
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleDeleteVisibility">No</button>
       </div>
       }
+
+      @if (isUpdateAlertVisible)
+      {
+      <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Are you sure?</h4>
+          <p>Do you really want to update this movie? This process cannot be undone.</p>
+        </div>
+      </div>
+      <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="UpdateMovie">Yes</button>
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleUpdateVisibility">No</button>
+      </div>
+      }
+
     </div>
   </div>
 }
 
 @code {
+  
     [Parameter]
     public int MovieId { get; set; }
 
-    bool isAlertVisible = false;
+    bool isDeleteAlertVisible = false;
 
-    bool isDeleteDisabled = false;
+    bool isUpdateAlertVisible = false;
 
-    bool isUpdatedDisabled = false;
+    bool isDeleteButtonDisabled = false;
+
+    bool isUpdateButtonDisabled = false;
 
     private async Task DeleteMovie()
     {
@@ -48,10 +66,27 @@
       }
     }
 
-    void ToggleAlertVisibility()
+    private async Task UpdateMovie()
     {
-        isAlertVisible = !isAlertVisible;
-        isDeleteDisabled = !isDeleteDisabled;
-        isUpdatedDisabled = !isUpdatedDisabled;
+      IMovieRemover movieRemover = new MovieService(DbFactory);
+      bool isSuccess = await movieRemover.RemoveMovie(MovieId);
+      if (isSuccess)
+      {
+          NavManager.NavigateTo("/");
+      }
+    }
+
+    void ToggleDeleteVisibility()
+    {
+        isDeleteAlertVisible = !isDeleteAlertVisible;
+        isDeleteButtonDisabled = !isDeleteButtonDisabled;
+        isUpdateButtonDisabled = !isUpdateButtonDisabled;
+    }
+
+    void ToggleUpdateVisibility()
+    {
+        isUpdateAlertVisible = !isUpdateAlertVisible;
+        isDeleteButtonDisabled = !isDeleteButtonDisabled;
+        isUpdateButtonDisabled = !isUpdateButtonDisabled;
     }
 }

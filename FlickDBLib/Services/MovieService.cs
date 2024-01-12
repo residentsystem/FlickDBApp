@@ -1,12 +1,66 @@
 namespace FlickDBLib.Services
 {
-    public class MovieService : IMovieCreator, IMovieRemover
+    public class MovieService : IMovieReader, IMovieCreator, IMovieRemover
     {
         private readonly IDbContextFactory<MovieContext> _dbfactory;
+
+        public List<MoviePoster> Posters { get; set; } = new List<MoviePoster>();
 
         public MovieService(IDbContextFactory<MovieContext> dbfactory)
         {
             _dbfactory = dbfactory;
+        }
+
+        public async Task<IEnumerable<MoviePoster>> ReadAllMovies()
+        {
+            using (var db = _dbfactory.CreateDbContext())
+            {
+                if (db.Movies != null)
+                {
+                    var movies = await db.Movies.Select(movie => new MoviePoster
+                    {
+                        Movieid = movie.Movieid,
+                        Title = movie.Title,
+                        Poster = movie.Poster,
+                        Duration = movie.Duration
+                    })
+                    .ToListAsync();
+                    db.Dispose();
+
+                    return movies;
+                }
+                else
+                {
+                    db.Dispose();
+                    return Enumerable.Empty<MoviePoster>();
+                }
+            }
+        }
+
+        public async Task<Movie> ReadMovie(int movieid)
+        {
+            using (var db = _dbfactory.CreateDbContext())
+            {
+                if (db.Movies != null)
+                {
+                    var movie = await db.Movies.FindAsync(movieid);
+                    db.Dispose();
+
+                    if (movie != null)
+                    {
+                        return movie;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    db.Dispose();
+                    return null;
+                }
+            }
         }
 
         public async Task<bool> AddMovie(MovieForm movieform)
