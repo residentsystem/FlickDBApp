@@ -1,6 +1,11 @@
 @page "/showmovie/{MovieId:int}"
 
 @inject IDbContextFactory<MovieContext> DbFactory
+@inject NavigationManager NavManager
+
+@using FlickDB.Pages.Genres;
+@using FlickDB.Pages.Actors;
+@using FlickDB.Pages.Crews;
 
 @if (Movie != null)
 {
@@ -43,7 +48,7 @@
           <div class="col-md-6">
             
             <div class="list-group d-flex flex-column p-3 gap-3 py-md-5">
-              <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+              <a href="#" class="list-group-item list-group-item-action">Properties</a>
 
               <a href="#" class="list-group-item list-group-item-action list-group-item-primary d-flex gap-3 py-3" aria-current="true">
                 <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
@@ -104,16 +109,13 @@
         </div>
       </div>
 
-      <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Primary</button>
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
-      </div>
     </div>
     <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
       <img class="rounded-lg-3 poster" src="/images/poster/@Movie.Poster" alt="@Movie.Title">
     </div>
   </div>
 </div>
+<ManageMovie MovieId=MovieId />
 
 // -------------------------------------------- Actors --------------------------------------------
 

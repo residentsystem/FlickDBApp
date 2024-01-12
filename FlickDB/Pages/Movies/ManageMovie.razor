@@ -1,0 +1,57 @@
+@page "/managemovie/{MovieId:int}"
+
+@inject IDbContextFactory<MovieContext> DbFactory
+@inject NavigationManager NavManager
+
+  <div class="container my-5">
+    <div class="row p-2 pb-2 pe-lg-2 pt-lg-2 align-items-center rounded-3 border shadow-sm">
+      <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleAlertVisibility" disabled="@isDeleteDisabled">Delete</button>
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" disabled="@isUpdatedDisabled">Update</button>
+      </div>
+      @if (isAlertVisible)
+{
+      <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Are you sure?</h4>
+          <p>Do you really want to delete this movie? This process cannot be undone.</p>
+          <hr>
+          <p class="mb-0">Please note that deleting a movie will also delete all the actors and crews associated with it.</p>
+        </div>
+      </div>
+      <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="DeleteMovie">Yes</button>
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleAlertVisibility">No</button>
+      </div>
+      }
+    </div>
+  </div>
+}
+
+@code {
+    [Parameter]
+    public int MovieId { get; set; }
+
+    bool isAlertVisible = false;
+
+    bool isDeleteDisabled = false;
+
+    bool isUpdatedDisabled = false;
+
+    private async Task DeleteMovie()
+    {
+      IMovieRemover movieRemover = new MovieService(DbFactory);
+      bool isSuccess = await movieRemover.RemoveMovie(MovieId);
+      if (isSuccess)
+      {
+          NavManager.NavigateTo("/");
+      }
+    }
+
+    void ToggleAlertVisibility()
+    {
+        isAlertVisible = !isAlertVisible;
+        isDeleteDisabled = !isDeleteDisabled;
+        isUpdatedDisabled = !isUpdatedDisabled;
+    }
+}

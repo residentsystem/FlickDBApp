@@ -106,8 +106,8 @@
     {
         IsValidSubmit = true;
 
-        IMovieCreator movieCreator = new MovieService(DbFactory, MovieForm);
-        bool isSuccess = await movieCreator.AddMovie();
+        IMovieCreator movieCreator = new MovieService(DbFactory);
+        bool isSuccess = await movieCreator.AddMovie(MovieForm);
         if (isSuccess)
         {
             NavManager.NavigateTo("/");
