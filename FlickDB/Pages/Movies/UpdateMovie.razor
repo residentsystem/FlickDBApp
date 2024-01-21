@@ -1,0 +1,190 @@
+@page "/updatemovie"
+
+@inject MovieForm MovieForm
+@inject IDbContextFactory<MovieContext> DbFactory
+@inject NavigationManager NavManager
+
+@using FlickDB.Services;
+
+<div class="container my-5">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-sm">
+        <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+            <h1 class="display-4 fw-bold lh-1 text-body-emphasis">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+                <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+            </svg>
+            Update a Movie</h1>
+            <p class="lead">Update a movie</p>
+
+            <div class="container">
+                <div class="row">
+                    <form>
+
+                        <EditForm Model="@MovieForm" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+                            <DataAnnotationsValidator />
+                        
+                        <div class="col-lg-12 p-2 p-lg-2 pt-lg-2">
+
+                            <div class="col-md-6">
+                                <label for="title" class="form-label">Title</label>
+                                <InputText id="title" type="text" class="form-control" @bind-Value=MovieForm.Title />
+                                <ValidationMessage For="() => MovieForm.Title" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="format" class="form-label">Format</label>
+                                <InputSelect id="format" class="form-select" aria-label="format" @bind-Value=MovieForm.Format >
+                                    <option value="@Movie?.Format">@Movie?.Format</option>
+                                    <option value="HD DVD">HD DVD</option>
+                                    <option value="Full-HD Blu-ray">Full-HD Blu-ray</option>
+                                    <option value="Ultra-HD Blu-ray">Ultra-HD Blu-ray</option>
+                                </InputSelect>
+                                <ValidationMessage For="() => MovieForm.Format" />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="hours" class="form-label">Duration (Hours)</label>
+                                <InputNumber id="hours" class="form-control" @bind-Value=MovieForm.DurationHours maxlength="2" readonly />
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary m-1 duration" @onclick="DecrementHour">-</button>
+                                    <button type="button" class="btn btn-primary m-1 duration" @onclick="IncrementHour">+</button>
+                                </div>
+                                <ValidationMessage For="() => MovieForm.DurationHours" />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="minutes" class="form-label">Duration (Minutes):</label>
+                                <InputNumber id="minutes" class="form-control" @bind-Value=MovieForm.DurationMinutes maxlength="2" readonly />
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary m-1 duration" @onclick="DecrementMinute">-</button>
+                                    <button type="button" class="btn btn-primary m-1 duration" @onclick="IncrementMinute">+</button>
+                                </div>
+                                <ValidationMessage For="() => MovieForm.DurationMinutes" />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="release" class="form-label">Released:</label>
+                                <InputDate id="release" class="form-control" @bind-Value=MovieForm.Release />
+                                <ValidationMessage For="() => MovieForm.Release" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="rating" class="form-label">Rating:</label>
+                                <InputSelect id="rating" class="form-control" aria-label="rating" @bind-Value=MovieForm.SelectedRating >
+                                    <option value="@Movie?.Rating">@Movie?.Rating</option>
+                                    <option value="G">G - General Rating</option>
+                                    <option value="13+">13 years and over</option>
+                                    <option value="16+">16 years and over</option>
+                                    <option value="18+">18 years and over</option>
+                                </InputSelect>
+                                <ValidationMessage For="() => MovieForm.SelectedRating" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="poster" class="form-label">Poster</label>
+                                <InputText id="poster" type="text" class="form-control" @bind-Value=MovieForm.Poster />
+                                <ValidationMessage For="() => MovieForm.Poster" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="story" class="form-label">Story:</label>
+                                <InputTextArea id="story" class="form-control" @bind-Value=MovieForm.Story />
+                                <ValidationMessage For="() => MovieForm.Story" />
+                            </div>
+
+                        </div>
+                        <div class="col-lg-12 p-2 p-lg-2 pt-lg-2">
+                            <div class="alert alert-danger" role="alert">
+                                <h4 class="alert-heading">Are you sure?</h4>
+                                <p>Save your changes? This process cannot be undone.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 p-2 p-lg-2 pt-lg-2">
+                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Save</button>
+                        </div>
+                        </EditForm>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int MovieId { get; set; }
+
+    Movie? Movie { get; set; }
+
+    private bool IsValidSubmit { get; set; }
+
+    public string MovieIsSubmitted => IsValidSubmit ? "Movie updated!" : "Movie update failed!";
+
+    protected override async Task OnInitializedAsync()
+    {
+        IMovieReader movieReader = new MovieService(DbFactory);
+        Movie = await movieReader.ReadMovie(MovieId);
+
+        // Set the form values to the movie duration values
+        MovieForm.Title = Movie.Title;
+        MovieForm.Format = Movie.Format;
+        MovieForm.DurationHours = Movie.Duration.Value.Hours;
+        MovieForm.DurationMinutes = Movie.Duration.Value.Minutes;
+        MovieForm.Release = Movie.Release.HasValue ? Movie.Release.Value : DateOnly.MinValue;
+        MovieForm.SelectedRating = Movie.Rating;
+        MovieForm.Poster = Movie.Poster;
+        MovieForm.Story = Movie.Story;
+
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        IsValidSubmit = true;
+
+        IMovieUpdator movieUpdater = new MovieService(DbFactory);
+        bool isSuccess = await movieUpdater.UpdateMovie(MovieForm, MovieId);
+        if (isSuccess)
+        {
+            NavManager.NavigateTo($"/");
+        }
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        IsValidSubmit = false;
+    }
+
+    private void IncrementHour()
+    {
+        if (MovieForm.DurationHours < 12)
+        {
+            MovieForm.DurationHours++;
+        }
+    }
+
+    private void DecrementHour()
+    {
+        if (MovieForm.DurationHours > 0)
+        {
+            MovieForm.DurationHours--;
+        }
+    }
+
+    private void IncrementMinute()
+    {
+        if (MovieForm.DurationMinutes < 59)
+        {
+            MovieForm.DurationMinutes++;
+        }
+    }
+
+    private void DecrementMinute()
+    {
+        if (MovieForm.DurationMinutes > 0)
+        {
+            MovieForm.DurationMinutes--;
+        }
+    }
+}

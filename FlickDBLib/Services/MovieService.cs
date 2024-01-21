@@ -1,6 +1,6 @@
 namespace FlickDBLib.Services
 {
-    public class MovieService : IMovieReader, IMovieCreator, IMovieRemover
+    public class MovieService : IMovieReader, IMovieCreator, IMovieRemover, IMovieUpdator
     {
         private readonly IDbContextFactory<MovieContext> _dbfactory;
 
@@ -108,6 +108,44 @@ namespace FlickDBLib.Services
                     int changes = await db.SaveChangesAsync();
                     db.Dispose();
                     return changes > 0;
+                }
+                else
+                {
+                    db.Dispose();
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> UpdateMovie(MovieForm movieform, int movieid)
+        {
+            using (var db = _dbfactory.CreateDbContext())
+            {
+                if (db.Movies != null)
+                {
+                    var movie = await db.Movies.FindAsync(movieid);
+
+                    if (movie != null)
+                    {
+                        movie.Title = movieform.Title;
+                        movie.Format = movieform.Format;
+                        movie.Duration = movieform.Duration;
+                        movie.Release = movieform.Release;
+                        movie.Rating = movieform.GetRatingDescription();
+                        movie.Symbol = movieform.GetRatingSymbol();
+                        movie.Poster = movieform.GetPosterFileName(movieform.Title);
+                        movie.Story = movieform.Story;
+
+                        db.Entry(movie).State = EntityState.Modified;
+                        int changes = await db.SaveChangesAsync();
+                        db.Dispose();
+                        return changes > 0;
+                    }
+                    else
+                    {
+                        db.Dispose();
+                        return false;
+                    }
                 }
                 else
                 {
