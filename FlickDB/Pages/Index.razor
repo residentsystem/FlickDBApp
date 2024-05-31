@@ -25,7 +25,7 @@
 
   protected override async Task OnInitializedAsync()
   {
-    IMovieReader movieReader = new MovieService(DbFactory);
-    Posters = await movieReader.ReadAllMovies();
+    IMovieManager movieManager = new MovieService(DbFactory);
+    Posters = await movieManager.ReadAllMovies();
   }
 }

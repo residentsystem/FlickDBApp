@@ -1,6 +1,6 @@
 namespace FlickDBLib.Services
 {
-    public class MovieService : IMovieReader, IMovieCreator, IMovieRemover, IMovieUpdator
+    public class MovieService : IMovieManager
     {
         private readonly IDbContextFactory<MovieContext> _dbfactory;
 
@@ -133,7 +133,7 @@ namespace FlickDBLib.Services
                         movie.Release = movieform.Release;
                         movie.Rating = movieform.GetRatingDescription();
                         movie.Symbol = movieform.GetRatingSymbol();
-                        movie.Poster = movieform.GetPosterFileName(movieform.Title);
+                        movie.Poster = movieform.Poster;
                         movie.Story = movieform.Story;
 
                         db.Entry(movie).State = EntityState.Modified;

@@ -12,8 +12,8 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="OnClick">View</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="EditMovie">Edit</button>
                     </div>
                     <small class="text-body-secondary">@Poster.Duration mins</small>
                 </div>
@@ -31,7 +31,7 @@ else
     [Parameter]
     public MoviePoster? Poster { get; set; }
 
-    private void OnClick()
+    private void EditMovie()
     {
         if (Poster != null)
         UriHelper.NavigateTo($"ShowMovie/{Poster.Movieid}");

@@ -21,6 +21,9 @@ builder.Services.AddSingleton<ISettingReader, SettingService>();
 // Movie Form Services
 builder.Services.AddScoped<MovieForm>();
 
+// Actor Form Services
+builder.Services.AddScoped<ActorForm>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

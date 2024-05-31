@@ -15,11 +15,9 @@
             </svg>
             Add a Movie</h1>
             <p class="lead">Add a movie here</p>
-
             <div class="container">
                 <div class="row">
                     <form>
-
                         <EditForm Model="@MovieForm" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
                             <DataAnnotationsValidator />
 
@@ -88,7 +86,6 @@
                                 <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
                             </div>
                         </EditForm>
-
                     </form>
                 </div>
             </div>
@@ -106,8 +103,8 @@
     {
         IsValidSubmit = true;
 
-        IMovieCreator movieCreator = new MovieService(DbFactory);
-        bool isSuccess = await movieCreator.AddMovie(MovieForm);
+        IMovieManager movieManager = new MovieService(DbFactory);
+        bool isSuccess = await movieManager.AddMovie(MovieForm);
         if (isSuccess)
         {
             NavManager.NavigateTo("/");
