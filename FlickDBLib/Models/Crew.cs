@@ -13,9 +13,9 @@ public partial class Crew
 
     public DateOnly? Birth { get; set; }
 
-    public string Position { get; set; } = null!;
-
     public string? Picture { get; set; }
+
+    public string Position { get; set; } = null!;
 
     public virtual ICollection<MovieCrew> Moviescrews { get; } = new List<MovieCrew>();
 }

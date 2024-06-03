@@ -2,6 +2,8 @@
 
 @inject IDbContextFactory<MovieContext> DbFactory
 
+@using FlickDB.Pages.Crews;
+
 @if (Crews != null)
 {
   @foreach (var crew in Crews)
@@ -18,9 +20,12 @@
             </a>
           </div>
           <div class="col-auto d-none d-lg-block">
-            <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+              <image href="/images/actor/@crew.Picture" x="0" y="0" width="100%" height="100%" />
+            </svg>
           </div>
         </div>
+        <ManageCrew MovieId="@MovieId" CrewId="@crew.Crewid" />
     </div>
   }
 }
@@ -34,23 +39,11 @@ else
     [Parameter]
     public int MovieId { get; set; }
 
-    Movie? MovieCrew { get; set; }
-
     List<Crew> Crews { get; set; } = new List<Crew>();
 
     protected override async Task OnInitializedAsync()
     {
-      using (var db = DbFactory.CreateDbContext())
-      {
-        if (db.Movies != null)
-        {
-          MovieCrew = await db.Movies.Include(mc => mc.Moviescrews).ThenInclude(c => c.Crew).FirstOrDefaultAsync(m => m.Movieid == MovieId);
-        }
-
-        if (MovieCrew != null)
-          Crews = await Task.FromResult(MovieCrew.Moviescrews.Select(c => c.Crew).ToList());
-        
-        db.Dispose();
-      }
+        ICrewManager crewManager = new CrewService(DbFactory);
+        Crews = (await crewManager.ReadAllCrew(MovieId)).ToList();
     }
 }
