@@ -51,14 +51,14 @@
                                     <option value="@Crew?.Position">@Crew?.Position</option>
                                     <option value="Director">Director</option>
                                     <option value="Producer">Producer</option>
-                                    <option value="Producer">Writer</option>
+                                    <option value="Writer">Writer</option>
                                 </InputSelect>
                                 <ValidationMessage For="() => CrewForm.Position" />
                             </div>
 
                             <div class="col-12 p-2">
-                                <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
-                                <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCancel" value="Cancel" />
+                                <input type="submit" class="btn btn-primary btn-md" value="Submit" />
+                                <input type="button" class="btn btn-primary btn-md" @onclick="HandleCanceledSubmit" value="Cancel" />
                             </div>
                         </EditForm>
                     </form>
@@ -94,9 +94,9 @@
         CrewForm.Position = Crew.Position;
     }
 
-    private void HandleCancel()
+    private void HandleCanceledSubmit()
     {
-        NavManager.NavigateTo("/");
+        NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
     }
 
     private async Task HandleValidSubmit()
@@ -107,7 +107,7 @@
         bool isSuccess = await crewManager.UpdateCrew(CrewForm, CrewId);
         if (isSuccess)
         {
-            NavManager.NavigateTo("/");
+            NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
         }
     }
 

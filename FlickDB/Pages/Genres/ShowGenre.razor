@@ -16,6 +16,7 @@
         </div>
       </div>
     </a>
+    <ManageGenre MovieId="@MovieId" GenreId="@genre.Genreid" />
   }
 }
 else
@@ -41,17 +42,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-      using (var db = DbFactory.CreateDbContext())
-      {
-        if (db.Movies != null)
-        {
-          MovieGenre = await db.Movies.Include(mg => mg.Moviesgenres).ThenInclude(g => g.Genre).FirstOrDefaultAsync(m => m.Movieid == MovieId);
-        }
-
-        if (MovieGenre != null)
-          Genres = await Task.FromResult(MovieGenre.Moviesgenres.Select(g => g.Genre).ToList());
-        
-        db.Dispose();
-      }
+        IGenreManager genreManager = new GenreService(DbFactory);
+        Genres = (await genreManager.ReadAllGenre(MovieId)).ToList();
     }
 }

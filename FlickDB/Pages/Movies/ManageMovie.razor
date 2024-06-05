@@ -5,11 +5,12 @@
 
   <div class="container my-5">
     <div class="row p-2 pb-2 pe-lg-2 pt-lg-2 align-items-center rounded-3 border shadow-sm">
-      <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
+      <div class="col-lg-12 p-2 p-lg-2 pt-lg-2">
         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleDeleteVisibility" disabled="@isDeleteButtonDisabled">Delete Movie</button>
         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="ToggleUpdateVisibility" disabled="@isUpdateButtonDisabled">Update Movie</button>
         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="AddActor">Add Actor</button>
         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="AddCrew">Add Crew</button>
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" @onclick="AddGenre">Add Genre</button>
       </div>
       @if (isDeleteAlertVisible)
       {
@@ -66,6 +67,11 @@
     private void AddCrew()
     {
         NavManager.NavigateTo($"/addcrew/{MovieId}");
+    }
+
+    private void AddGenre()
+    {
+        NavManager.NavigateTo($"/addgenre/{MovieId}");
     }
 
     void ToggleDeleteVisibility()

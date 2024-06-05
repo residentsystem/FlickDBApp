@@ -1,0 +1,80 @@
+@page "/addgenre/{MovieId:int}"
+
+@inject GenreForm GenreForm
+@inject IDbContextFactory<MovieContext> DbFactory
+@inject NavigationManager NavManager
+
+@using FlickDB.Services;
+
+<div class="container my-5">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-sm">
+        <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+            <h1 class="display-4 fw-bold lh-1 text-body-emphasis">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+                <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+            </svg>
+            Add a Genre</h1>
+            <p class="lead">Add a Genre</p>
+            <div class="container">
+                <div class="row">
+                    <form>
+                        <EditForm Model="@GenreForm" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+                            <DataAnnotationsValidator />
+
+                            <div class="col-md-6">
+                                <label for="genre" class="form-label">Genre</label>
+                                <InputSelect id="genre" class="form-control" aria-label="genre" @bind-Value=GenreForm.Genre1 placeholder="Genre name" >
+                                    <option value="">Select a genre</option>
+                                    <option value="Action">Action</option>
+                                    <option value="Sci-Fi">Sci-Fi</option>
+                                    <option value="Horror">Horror</option>
+                                    <option value="Adventure">Adventure</option>
+                                    <option value="Fantasy">Fantasy</option>
+                                    <option value="Comedy">Comedy</option>
+                                </InputSelect>
+                                <ValidationMessage For="() => GenreForm.Genre1" />
+                            </div>
+
+                            <div class="col-12 p-2">
+                                <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
+                                <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCanceledSubmit" value="Cancel" />
+                            </div>
+                        </EditForm>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int MovieId { get; set; }
+
+    private bool IsValidSubmit { get; set; }
+
+    public string GenreIsSubmitted => IsValidSubmit ? "Genre added!" : "Genre not submitted!";
+
+    private void HandleCanceledSubmit()
+    {
+        NavManager.NavigateTo($"/ShowMovie/{MovieId}");
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        IsValidSubmit = true;
+
+        IGenreManager genreManager = new GenreService(DbFactory);
+        bool isSuccess = await genreManager.AddGenre(GenreForm, MovieId);
+        if (isSuccess)
+        {
+            NavManager.NavigateTo($"/ShowMovie/{MovieId}");
+        }
+    }
+    
+    private void HandleInvalidSubmit()
+    {
+        IsValidSubmit = false;
+    }
+}

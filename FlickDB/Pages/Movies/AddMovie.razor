@@ -84,6 +84,7 @@
 
                             <div class="col-12 p-2">
                                 <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
+                                <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCanceledSubmit" value="Cancel" />
                             </div>
                         </EditForm>
                     </form>
@@ -98,6 +99,11 @@
     private bool IsValidSubmit { get; set; }
 
     public string MovieIsSubmitted => IsValidSubmit ? "Movie added!" : "Movie not submitted!";
+
+    private void HandleCanceledSubmit()
+    {
+        NavManager.NavigateTo("/");
+    }
 
     private async Task HandleValidSubmit()
     {

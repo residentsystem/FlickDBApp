@@ -45,14 +45,14 @@
                                     <option value="">Select a position</option>
                                     <option value="Director">Director</option>
                                     <option value="Producer">Producer</option>
-                                    <option value="Producer">Writer</option>
+                                    <option value="Writer">Writer</option>
                                 </InputSelect>
                                 <ValidationMessage For="() => CrewForm.Position" />
                             </div>
 
                             <div class="col-12 p-2">
                                 <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
-                                <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCancel" value="Cancel" />
+                                <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCanceledSubmit" value="Cancel" />
                             </div>
                         </EditForm>
                     </form>
@@ -71,7 +71,7 @@
 
     public string CrewIsSubmitted => IsValidSubmit ? "Crew added!" : "Crew not submitted!";
 
-    private void HandleCancel()
+    private void HandleCanceledSubmit()
     {
         NavManager.NavigateTo($"/ShowMovie/{MovieId}");
     }

@@ -27,6 +27,9 @@ builder.Services.AddScoped<ActorForm>();
 // Crew Form Services
 builder.Services.AddScoped<CrewForm>();
 
+// Genre Form Services
+builder.Services.AddScoped<GenreForm>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

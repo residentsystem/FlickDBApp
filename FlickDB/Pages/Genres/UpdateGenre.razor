@@ -1,0 +1,81 @@
+@page "/updategenre/{MovieId:int}/{GenreId:int}"
+
+@inject GenreForm GenreForm
+@inject IDbContextFactory<MovieContext> DbFactory
+@inject NavigationManager NavManager
+
+@using FlickDB.Services;
+
+<div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+    <h4 class="fw-bold lh-1 text-body-emphasis">Update Genre</h4>
+    <p class="lead">Update a Genre</p>
+</div>
+    <form>
+        <EditForm Model="@GenreForm" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+            <label for="genre" class="form-label">Genre</label>
+                <InputSelect id="genre" class="form-control" aria-label="genre" @bind-Value=GenreForm.Genre1 placeholder="Genre name" >
+                    <option value="@Genre?.Genre1">@Genre?.Genre1</option>
+                    <option value="Action">Action</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
+                    <option value="Horror">Horror</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Comedy">Comedy</option>
+                </InputSelect>
+                <ValidationMessage For="() => GenreForm.Genre1" />
+            </div>
+
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+                <input type="submit" class="btn btn-primary btn-sm" value="Submit" />
+                <input type="button" class="btn btn-primary btn-sm" @onclick="HandleCanceledSubmit" value="Cancel" />
+            </div>
+        </EditForm>
+    </form>
+
+@code {
+
+    [Parameter]
+    public int MovieId { get; set; }
+
+    [Parameter]
+    public int GenreId { get; set; }
+
+    Genre? Genre { get; set; }
+
+    private bool IsValidSubmit { get; set; }
+
+    public string MovieIsSubmitted => IsValidSubmit ? "Genre updated!" : "Genre update failed!";
+
+    protected override async Task OnInitializedAsync()
+    {
+        IGenreManager genreManager = new GenreService(DbFactory);
+        Genre = await genreManager.ReadGenre(MovieId, GenreId);
+
+        GenreForm.Genre1 = Genre.Genre1;
+    }
+
+    private void HandleCanceledSubmit()
+    {
+        NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        IsValidSubmit = true;
+
+        IGenreManager genreManager = new GenreService(DbFactory);
+        bool isSuccess = await genreManager.UpdateGenre(GenreForm, GenreId);
+        if (isSuccess)
+        {
+            NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+        }
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        IsValidSubmit = false;
+    }
+}

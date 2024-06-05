@@ -47,7 +47,7 @@
 
                             <div class="col-12 p-2">
                                 <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
-                                <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCancel" value="Cancel" />
+                                <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCanceledSubmit" value="Cancel" />
                             </div>
                         </EditForm>
                     </form>
@@ -66,7 +66,7 @@
 
     public string ActorIsSubmitted => IsValidSubmit ? "Actor added!" : "Actor not submitted!";
 
-    private void HandleCancel()
+    private void HandleCanceledSubmit()
     {
         NavManager.NavigateTo($"/ShowMovie/{MovieId}");
     }

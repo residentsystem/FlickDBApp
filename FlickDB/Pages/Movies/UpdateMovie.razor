@@ -98,8 +98,8 @@
                             </div>
                         </div>
                         <div class="col-lg-12 p-2 p-lg-2 pt-lg-2">
-                            <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Save</button>
-                            <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCancel" value="Cancel" />
+                            <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
+                            <input type="button" class="btn btn-primary btn-lg" @onclick="HandleCanceledSubmit" value="Cancel" />
                         </div>
                         </EditForm>
                     </form>
@@ -136,9 +136,9 @@
         MovieForm.Story = Movie.Story;
     }
 
-    private void HandleCancel()
+    private void HandleCanceledSubmit()
     {
-        NavManager.NavigateTo("/");
+        NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
     }
 
     private async Task HandleValidSubmit()
@@ -149,7 +149,7 @@
         bool isSuccess = await movieManager.UpdateMovie(MovieForm, MovieId);
         if (isSuccess)
         {
-            NavManager.NavigateTo("/");
+            NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
         }
     }
 
