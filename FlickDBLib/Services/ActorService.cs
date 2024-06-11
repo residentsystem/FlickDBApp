@@ -15,7 +15,7 @@ namespace FlickDBLib.Services
             _dbfactory = dbfactory;
         }
 
-        public async Task<IEnumerable<Actor>> ReadAllActors(int MovieId)
+        public async Task<IEnumerable<Actor>> ReadAllActor(int MovieId)
         {
             using (var db = _dbfactory.CreateDbContext())
             {

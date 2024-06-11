@@ -47,6 +47,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         IActorManager actorManager = new ActorService(DbFactory);
-        Actors = (await actorManager.ReadAllActors(MovieId)).ToList();
+        Actors = (await actorManager.ReadAllActor(MovieId)).ToList();
     }
 }

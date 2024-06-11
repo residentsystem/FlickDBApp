@@ -14,8 +14,6 @@ public class MovieForm
     [Required (ErrorMessage = "Duration in minute(s) is required")]
     public int DurationMinutes { get; set; }
 
-    //public TimeOnly Duration => new TimeOnly(DurationHours, DurationMinutes);
-
     public TimeSpan Duration => new TimeSpan(DurationHours, DurationMinutes, 0);
 
     [Required (ErrorMessage = "Movie release date is required")]

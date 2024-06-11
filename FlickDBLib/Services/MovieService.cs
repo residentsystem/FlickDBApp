@@ -6,6 +6,8 @@ namespace FlickDBLib.Services
 
         public List<MoviePoster> Posters { get; set; } = new List<MoviePoster>();
 
+        public int Changes { get; set; }
+
         public MovieService(IDbContextFactory<MovieContext> dbfactory)
         {
             _dbfactory = dbfactory;
@@ -103,11 +105,36 @@ namespace FlickDBLib.Services
                     var movie = await db.Movies.FindAsync(movieid);
 
                     if (movie != null)
-                    //db.Movies.Remove(movie);
-                    db.Entry(movie).State = EntityState.Deleted;
-                    int changes = await db.SaveChangesAsync();
-                    db.Dispose();
-                    return changes > 0;
+                    {
+                        IActorManager actorManager = new ActorService(_dbfactory);
+                        var actors = await actorManager.ReadAllActor(movieid);
+
+                        foreach (var actor in actors)
+                        {
+                            await actorManager.RemoveActor(actor.Actorid);
+                        }
+
+                        ICrewManager crewManager = new CrewService(_dbfactory);
+                        var crews = await crewManager.ReadAllCrew(movieid);
+
+                        foreach (var crew in crews)
+                        {
+                            await crewManager.RemoveCrew(crew.Crewid);
+                        }
+
+                        IGenreManager genreManager = new GenreService(_dbfactory);
+                        var genres = await genreManager.ReadAllGenre(movieid);
+
+                        foreach (var genre in genres)
+                        {
+                            await genreManager.RemoveGenre(genre.Genreid);
+                        }
+
+                        db.Entry(movie).State = EntityState.Deleted;
+                        Changes = await db.SaveChangesAsync();
+                        db.Dispose();
+                    }
+                    return Changes > 0;
                 }
                 else
                 {

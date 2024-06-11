@@ -38,11 +38,7 @@ public partial class MovieContext : DbContext
 
         optionsBuilder.UseMySql(_database.GetConnectionString(connectionstring!),
         new MySqlServerVersion(new Version(8, 0, 19))).LogTo(Console.WriteLine, LogLevel.Information);
-
-        // optionsBuilder.UseSqlite(_database.GetConnectionString(connectionstring));
-        // optionsBuilder.UseSqlServer(_database.GetConnectionString());
     }
-    //    => optionsBuilder.UseMySql("server=rs-wsdv-z690-01.residentsystem.home;port=3306;database=movie;user=rsmoviedev01;password=MySQL@1-rule;initial catalog=Movie", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

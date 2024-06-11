@@ -2,7 +2,7 @@ namespace FlickDBLib.Interface
 {
     public interface IActorManager
     {
-        Task<IEnumerable<Actor>> ReadAllActors(int movieid);
+        Task<IEnumerable<Actor>> ReadAllActor(int movieid);
 
         Task<Actor?> ReadActor(int movieid, int actorid);
 
