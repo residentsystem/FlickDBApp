@@ -68,10 +68,10 @@
                                 <label for="rating" class="form-label">Rating:</label>
                                 <InputSelect id="rating" class="form-control" aria-label="rating" @bind-Value=MovieForm.SelectedRating placeholder="Movie rating" >
                                     <option value="">Select a rating</option>
-                                    <option value="G">G - General Rating</option>
-                                    <option value="13+">13 years and over</option>
-                                    <option value="16+">16 years and over</option>
-                                    <option value="18+">18 years and over</option>
+                                    <option value="General">General</option>
+                                    <option value="13 years and over">13 years and over</option>
+                                    <option value="16 years and over">16 years and over</option>
+                                    <option value="18 years and over">18 years and over</option>
                                 </InputSelect>
                                 <ValidationMessage For="() => MovieForm.SelectedRating" />
                             </div>

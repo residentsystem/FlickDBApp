@@ -33,17 +33,17 @@ public class MovieForm
 
     public string GetRatingDescription() 
     {
-        if (SelectedRating == "G")
-            return "G - General Rating";
+        if (SelectedRating == "General")
+            return "General";
             
-        else if (SelectedRating == "13+")
-            return "13+ - 13 years and over";
+        else if (SelectedRating == "13 years and over")
+            return "13 years and over";
 
-        else if (SelectedRating == "16+")
-            return "16+ - 16 years and over";
+        else if (SelectedRating == "16 years and over")
+            return "16 years and over";
         
-        else if (SelectedRating == "18+")
-            return "18+ - 18 years and over";
+        else if (SelectedRating == "18 years and over")
+            return "18 years and over";
 
         else
             return "None";
@@ -51,16 +51,16 @@ public class MovieForm
 
     public string GetRatingSymbol() 
     {
-        if (SelectedRating == "G")
+        if (SelectedRating == "General")
             return "RatingG.png";
 
-        else if (SelectedRating == "13+")
+        else if (SelectedRating == "13 years and over")
             return "Rating13.png";
 
-        else if (SelectedRating == "16+")
+        else if (SelectedRating == "16 years and over")
             return "Rating16.png";
 
-        else if (SelectedRating == "18+")
+        else if (SelectedRating == "18 years and over")
             return "Rating18.png";
 
         else
