@@ -39,6 +39,12 @@
                                 <ValidationMessage For="() => ActorForm.Birth" />
                             </div>
 
+                            <div class="col-md-6">
+                                <label for="biography" class="form-label">Biography:</label>
+                                <InputTextArea id="biography" class="form-control" @bind-Value=ActorForm.Biography />
+                                <ValidationMessage For="() => ActorForm.Biography" />
+                            </div>
+
                             <div class="col-md-12">
                                 <label for="picture" class="form-label">Picture</label>
                                 <InputText id="picture" type="text" class="form-control" @bind-Value=ActorForm.Picture placeholder="Actor picture" />
@@ -85,6 +91,7 @@
         ActorForm.Firstname = Actor.Firstname;
         ActorForm.Lastname = Actor.Lastname;
         ActorForm.Birth = Actor.Birth.HasValue ? Actor.Birth.Value : DateOnly.MinValue;
+        ActorForm.Biography = Actor.Biography;
         ActorForm.Picture = Actor.Picture;
         ActorForm.Character = Actor.Moviesactors.First().Character;
     }

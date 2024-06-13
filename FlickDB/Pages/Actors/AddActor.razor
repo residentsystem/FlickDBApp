@@ -40,6 +40,12 @@
                             </div>
 
                             <div class="col-md-6">
+                                <label for="biography" class="form-label">Biography:</label>
+                                <InputTextArea id="biography" class="form-control" @bind-Value=ActorForm.Biography placeholder="Actor biography" />
+                                <ValidationMessage For="() => ActorForm.Biography" />
+                            </div>
+
+                            <div class="col-md-6">
                                 <label for="character" class="form-label">Character</label>
                                 <InputText id="character" type="text" class="form-control" @bind-Value=ActorForm.Character placeholder="Character name" />
                                 <ValidationMessage For="() => ActorForm.Character" />

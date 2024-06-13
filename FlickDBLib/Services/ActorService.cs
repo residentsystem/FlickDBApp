@@ -57,6 +57,7 @@ namespace FlickDBLib.Services
                 Firstname = actorform.Firstname,
                 Lastname = actorform.Lastname,
                 Birth = actorform.Birth,
+                Biography = actorform.Biography,
                 Picture = actorform.GetPictureFileName(actorform.Firstname, actorform.Lastname)
 
             };
@@ -117,6 +118,7 @@ namespace FlickDBLib.Services
                         actor.Firstname = actorform.Firstname;
                         actor.Lastname = actorform.Lastname;
                         actor.Birth = actorform.Birth;
+                        actor.Biography = actorform.Biography;
                         actor.Picture = actorform.Picture;
                         movieactor.Character = actorform.Character;
 

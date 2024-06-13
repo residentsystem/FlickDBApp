@@ -60,6 +60,9 @@ public partial class MovieContext : DbContext
             entity.Property(e => e.Lastname)
                 .HasMaxLength(40)
                 .HasColumnName("lastname");
+            entity.Property(e => e.Biography)
+                .HasMaxLength(600)
+                .HasColumnName("biography");
             entity.Property(e => e.Picture)
                 .HasMaxLength(50)
                 .HasColumnName("picture");
