@@ -13,6 +13,8 @@ public partial class Crew
 
     public DateOnly? Birth { get; set; }
 
+    public string? Biography { get; set; }
+
     public string? Picture { get; set; }
 
     public string Position { get; set; } = null!;

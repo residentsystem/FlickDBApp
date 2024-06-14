@@ -39,6 +39,12 @@
                                 <ValidationMessage For="() => CrewForm.Birth" />
                             </div>
 
+                            <div class="col-md-6">
+                                <label for="biography" class="form-label">Biography:</label>
+                                <InputTextArea id="biography" class="form-control" @bind-Value=CrewForm.Biography />
+                                <ValidationMessage For="() => CrewForm.Biography" />
+                            </div>
+
                             <div class="col-md-12">
                                 <label for="picture" class="form-label">Picture</label>
                                 <InputText id="picture" type="text" class="form-control" @bind-Value=CrewForm.Picture placeholder="Crew picture" />
@@ -90,6 +96,7 @@
         CrewForm.Firstname = Crew.Firstname;
         CrewForm.Lastname = Crew.Lastname;
         CrewForm.Birth = Crew.Birth.HasValue ? Crew.Birth.Value : DateOnly.MinValue;
+        CrewForm.Biography = Crew.Biography;
         CrewForm.Picture = Crew.Picture;
         CrewForm.Position = Crew.Position;
     }

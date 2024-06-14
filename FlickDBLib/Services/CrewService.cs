@@ -57,6 +57,7 @@ namespace FlickDBLib.Services
                 Firstname = crewform.Firstname,
                 Lastname = crewform.Lastname,
                 Birth = crewform.Birth,
+                Biography = crewform.Biography,
                 Picture = crewform.GetPictureFileName(crewform.Firstname, crewform.Lastname),
                 Position = crewform.Position
 
@@ -118,6 +119,7 @@ namespace FlickDBLib.Services
                         crew.Firstname = crewform.Firstname;
                         crew.Lastname = crewform.Lastname;
                         crew.Birth = crewform.Birth;
+                        crew.Biography = crewform.Biography;
                         crew.Picture = crewform.Picture;
                         crew.Position = crewform.Position;
 

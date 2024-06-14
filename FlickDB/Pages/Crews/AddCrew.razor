@@ -40,6 +40,12 @@
                             </div>
 
                             <div class="col-md-6">
+                                <label for="biography" class="form-label">Biography:</label>
+                                <InputTextArea id="biography" class="form-control" @bind-Value=CrewForm.Biography placeholder="Crew biography" />
+                                <ValidationMessage For="() => CrewForm.Biography" />
+                            </div>
+
+                            <div class="col-md-6">
                                 <label for="position" class="form-label">Position</label>
                                 <InputSelect id="position" class="form-control" aria-label="position" @bind-Value=CrewForm.Position placeholder="Position name" >
                                     <option value="">Select a position</option>

@@ -53,13 +53,13 @@ public partial class MovieContext : DbContext
             entity.ToTable("actors");
 
             entity.Property(e => e.Actorid).HasColumnName("actorid");
-            entity.Property(e => e.Birth).HasColumnName("birth");
             entity.Property(e => e.Firstname)
                 .HasMaxLength(40)
                 .HasColumnName("firstname");
             entity.Property(e => e.Lastname)
                 .HasMaxLength(40)
                 .HasColumnName("lastname");
+            entity.Property(e => e.Birth).HasColumnName("birth");
             entity.Property(e => e.Biography)
                 .HasMaxLength(600)
                 .HasColumnName("biography");
@@ -82,6 +82,9 @@ public partial class MovieContext : DbContext
                 .HasMaxLength(40)
                 .HasColumnName("lastname");
             entity.Property(e => e.Birth).HasColumnName("birth");
+            entity.Property(e => e.Biography)
+                .HasMaxLength(600)
+                .HasColumnName("biography");
             entity.Property(e => e.Position)
                 .HasMaxLength(40)
                 .HasColumnName("position");
