@@ -13,7 +13,7 @@ builder.Services.AddServerSideBlazor();
 
 // Database Services
 builder.Services.AddDbContextFactory<MovieContext>();
-builder.Services.AddSingleton<IDatabaseConnector, DatabaseService>();
+builder.Services.AddSingleton<IDatabaseConnection, DatabaseConnection>();
 
 // Settings Services
 builder.Services.AddSingleton<ISettingReader, SettingService>();

@@ -1,35 +1,34 @@
-namespace FlickDBLib.Services
+namespace FlickDBLib.Database
 {
-    public class DatabaseService : IDatabaseConnector
+    public class DatabaseConnection : IDatabaseConnection
     {
-        private IConfiguration _configuration;
-
         private IWebHostEnvironment _environment;
 
         private MySqlConnection? connection;
         
         public string? Message { get; set; }
 
-        public DatabaseService(IConfiguration configuration, IWebHostEnvironment environment)
+        public DatabaseConnection(IWebHostEnvironment environment)
         {
-            _configuration = configuration;
             _environment = environment;
         }
 
-        public string GetConnectionString(DatabaseEnvironment connectionstring)
+        // Retrieve connection string from environment variable
+
+        public string? GetConnectionString()
         {
             if (_environment.IsDevelopment()) {
-                return connectionstring.Development!;
+                return Environment.GetEnvironmentVariable("CONNSTR_MOVIE_DEV");
             }
             else if (_environment.IsStaging()) {
-                return connectionstring.Staging!;
+                return Environment.GetEnvironmentVariable("CONNSTR_MOVIE_STG");
             }
             else {
-                return connectionstring.Production!;
+                return Environment.GetEnvironmentVariable("CONNSTR_MOVIE_PRD");
             }
         }
 
-        public string MySqlConnectionStatus(string connectionstring)
+        public string? MySqlConnectionStatus(string? connectionstring)
         {
             try
             {
@@ -54,7 +53,7 @@ namespace FlickDBLib.Services
                         break;
                 }
             }
-            return Message!;
+            return Message;
         }
     }
 }

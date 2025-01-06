@@ -7,43 +7,45 @@ These instructions will get you a copy of the project up and running on your loc
 ## Prerequisites
 To start working on this project you need to download and install the following components:
 
-* .NET Core SDK (Software Development Kit)
-* Visual Studio Code (Code editor)
-* git (Distributed version control system)
+* .NET Core SDK (Software Development Kit).
+* Visual Studio Code (Code editor).
+* git (Distributed version control system).
 * Download the files from Github.
-* Install and configure MySQL (optional)
+* Install and configure MySQL Server.
 
 ## Download and install
 
 ### Install .NET Core SDK
-1. Get the latest version of .NET Core on the <a href="https://dotnet.microsoft.com/download" target="_blank">dotnet</a> web site.
+1. Get the latest version of .NET from the <a href="https://dotnet.microsoft.com/download" target="_blank">dotnet</a> web site.
 
 2. When the installation is complete, open a new command prompt and run the following command:
 
-> \\> dotnet --list
+> \\> dotnet --info
 
-3. The command should print out information about the version, the runtime environment and a list of .NET Core SDKs installed.
+3. The command should print out information about the version, the runtime environment and a list of .NET Core SDKs installed. The information will be different depending on the version you installed. 
 
-> .NET Core SDK (reflecting any global.json):<br>
-> Version:   2.2.204<br>
-> Commit:    8757db13ec<br>
->
-> Runtime Environment:<br>
-> OS Name:     Windows<br>
-> OS Version:  10.0.17763<br>
-> OS Platform: Windows<br>
-> RID:         win10-x64<br>
-> Base Path:   C:\Program Files\dotnet\sdk\2.2.204\<br>
+> .NET SDK:
+>   Version:           9.0.101
+>   Commit:            eedb237549
+>   Workload version:  9.0.100-manifests.3068a692
+>   MSBuild version:   17.12.12+1cce77968
+
+> Runtime Environment:
+>   OS Name:     Windows
+>   OS Version:  10.0.26100
+>   OS Platform: Windows
+>   RID:         win-x64
+>   Base Path:   C:\Program Files\dotnet\sdk\9.0.101\
 
 ### Install Visual Studio Code
-1. Download the latest version of <a href="https://go.microsoft.com/fwlink/?LinkID=534107" target="_blank">Visual Studio Code</a> installer for Windows.
+1. Download the latest version of the <a href="https://code.visualstudio.com" target="_blank">Visual Studio Code</a> installer for Windows.
 
-2. Once it is downloaded, run the installer (VSCodeUserSetup-{version}.exe).
+2. Run the installer (VSCodeUserSetup-{version}.exe).
 
 3. By default, Visual Studio Code is installed under C:\users\<username>\AppData\Local\Programs\Microsoft VS Code.
 
 ### Install Git
-> This procedure assumes you want to use a distributed version control system to contribute to this project. Git is not mandatory to develop or to simply run an ASP.NET Core web application. In this case, simply download the repository from Github using the ZIP file option.   
+> Git is not mandatory to develop or to simply run an ASP.NET Core web application. In this case, simply download the repository from Github using the ZIP file option.   
 
 1. Download the latest version of the <a href="https://git-scm.com/download/win" target="_blank">git</a> installer for Windows.
 
@@ -82,11 +84,33 @@ Create a directory where you want the project and library to be cloned.
 
 6. Press Enter to clone the project.
 
+## Setup the database
+
+The application will connect to the database using information stored in environment variables. The connection string variable is associated with the environment the application is running in. If the environment is not set, the application will default to Development.
+
+1. Set an environment variable with the environment the application is running in. Choose between Development, Staging or Production.
+
+Example: ASPNETCORE_ENVIRONMENT=Development
+
+2. Set the environment variable holding the connection string. Choose between CONNSTR_MOVIE_<b>DEV</b> | <b>STG</b> | <b>PRD</b>.
+
+ASPNETCORE_ENVIRONMENT was set to <b>Development</b> in step 1, so the connection string variable should end with <b>DEV</b>.
+
+Example: CONNSTR_MOVIE_<b>DEV</b>="server=servername;port=3306;database=databasename;user=username;password=password"
+
+3. Modify Properties\launchSettings.json with the environment you wish to use. 
+
+> "ASPNETCORE_ENVIRONMENT": "Development"
+
+4. Create the database.
+
+You will need to have a MySQL server up and running before creating the database. Please find more information about installing MySQL Server on your system.
+
 ## Verify the installation
 
 1. Go into the project folder:
 
-> \\> cd C:\FlickDBProject\FlickDBApp
+> \\> cd C:\FlickDBProject\FlickDBApp\FlickDB
 
 2. Run the application.
 
@@ -96,52 +120,12 @@ Create a directory where you want the project and library to be cloned.
 
 > Hosting environment: Development
 > Content root path: C:\FlickDBProject\FlickDBApp
-> Now listening on: https://localhost:5001
-> Now listening on: http://localhost:5000
+> Now listening on: http://localhost:5001
 > Application started. Press Ctrl+C to shut down.
 
-4. Open your browser and navigate to http://localhost:5000.
+4. Open your browser and navigate to http://localhost:5001.
 
-5. The application will open and you can start creating and editing bookmarks.
-
-## Setup the database for MySQL
-
-The application is already configured to use SQLite and the database file already exist (Bookmark.db). The following section show you the steps you need to do to use MySQL instead.
-
-1. Go to the project folder.
-
-> \\> cd C:\FlickDBProject\FlickDBApp
-
-2. Open Data\ResidentBookmarkContext.cs and uncomment the optionsBuilder that use MySQL. Remove the double "/" in front of each lines so it look like this:
-
-> optionsBuilder.UseMySql(_database.GetConnectionString(connectionstring),
-> new MySqlServerVersion(new Version(8, 0, 19)), 
-> mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend));
-
-3. Next comment out the optionsBuilder section so that it will stop using SQLite. Add double "/" in front of the line so it look like this and save the file:
-
-> // optionsBuilder.UseSqlite(_database.GetConnectionString(connectionstring));
-
-4. Modify Properties\launchSettings.json with the environment you wish to use. Development is already used by SQLite so lets use staging. 
-
-> "ASPNETCORE_ENVIRONMENT": "Staging"
-
-5. Open bookmarksettings.json and update the ConnectionString section for Staging:
-
-> "Staging": "server=localhost;port=3306;database=database;user=username;password=password"
-
-Note: Use connection details related to your environment.
-
-6. Create the database.
-
-> \\>dotnet ef migrations add CreateStagingDatabase -o Migrations\Staging
-> \\>dotnet ef database update
-
-Important: You will need to have a MySQL server up and running before creating the database. Please find more information about installing MySQL Server on your system.
-
-- <a href="https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/windows-installation.html" target="_blank"> Install MySQL on Windows</a>.
-
-- <a href="https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/linux-installation.html" target="_blank"> Install MySQL on Linux</a>.
+5. The application will open and you can start adding movies.
 
 ### Host and deploy ASP.NET Core
 
@@ -149,7 +133,6 @@ When done publishing the app, you need to deploy the published files to a folder
 
 ## Built With
 * Visual Studio Code - Code editor
-* .NET Core SDK 7.0.100 - Open-source development platform
 
 ## Contributing
 Please read CONTRIBUTING for details on our code of conduct, and the process for submitting pull requests to us.

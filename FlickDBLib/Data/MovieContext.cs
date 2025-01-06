@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using FlickDBLib.Models;
-
-namespace FlickDBLib.Data;
+﻿namespace FlickDBLib.Data;
 
 public partial class MovieContext : DbContext
 {
-    private IConfiguration _configuration;
+    private IDatabaseConnection _database;
 
-    private IDatabaseConnector _database;
-
-    public MovieContext(IConfiguration configuration, IDatabaseConnector database)
+    public MovieContext(IDatabaseConnection database)
     {
-        _configuration = configuration;
         _database = database;
     }
 
@@ -33,11 +25,8 @@ public partial class MovieContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Bind the content of default configuration file "moviesettings.json" to an instance of DatabaseSettings. 
-        DatabaseEnvironment? connectionstring = _configuration.GetSection("ConnectionString").Get<DatabaseEnvironment>();
-
-        optionsBuilder.UseMySql(_database.GetConnectionString(connectionstring!),
-        new MySqlServerVersion(new Version(8, 0, 19))).LogTo(Console.WriteLine, LogLevel.Information);
+        //var connectionstring = "server=movie-dev.residentsystem.home;port=5508;database=movie;user=rsmoviedev01;password=gn+<M7W7hU=lriyf;initial catalog=Movie";
+        optionsBuilder.UseMySql(_database.GetConnectionString(), new MySqlServerVersion(new Version(8, 0, 19))).LogTo(Console.WriteLine, LogLevel.Information);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
