@@ -31,7 +31,6 @@ global using global::FlickDBLib.Data;
 global using global::FlickDBLib.Interface;
 global using global::FlickDBLib.Mail;
 global using global::FlickDBLib.Models;
-global using global::FlickDBLib.Database;
 global using global::FlickDBLib.Services;
 
 global using global::MailKit.Net.Smtp;

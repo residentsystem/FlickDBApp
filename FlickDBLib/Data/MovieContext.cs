@@ -2,9 +2,9 @@
 
 public partial class MovieContext : DbContext
 {
-    private IDatabaseConnection _database;
+    private IDbConnection _database;
 
-    public MovieContext(IDatabaseConnection database)
+    public MovieContext(IDbConnection database)
     {
         _database = database;
     }
@@ -25,7 +25,6 @@ public partial class MovieContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //var connectionstring = "server=movie-dev.residentsystem.home;port=5508;database=movie;user=rsmoviedev01;password=gn+<M7W7hU=lriyf;initial catalog=Movie";
         optionsBuilder.UseMySql(_database.GetConnectionString(), new MySqlServerVersion(new Version(8, 0, 19))).LogTo(Console.WriteLine, LogLevel.Information);
     }
 

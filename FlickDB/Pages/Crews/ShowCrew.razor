@@ -39,7 +39,7 @@ else
     [Parameter]
     public int MovieId { get; set; }
 
-    List<Crew> Crews { get; set; } = new List<Crew>();
+    public List<Crew> Crews { get; set; } = new List<Crew>();
 
     protected override async Task OnInitializedAsync()
     {

@@ -42,7 +42,7 @@ else
     [Parameter]
     public int MovieId { get; set; }
 
-    List<Actor> Actors { get; set; } = new List<Actor>();
+    public List<Actor> Actors { get; set; } = new List<Actor>();
 
     protected override async Task OnInitializedAsync()
     {

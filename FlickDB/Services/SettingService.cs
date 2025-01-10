@@ -2,12 +2,12 @@ namespace FlickDB.Services;
 
 public class SettingService : ISettingReader
 {
+    private readonly IConfiguration _configuration;
+    
     public SettingService(IConfiguration configuration)
     {
         _configuration = configuration;
     }
-
-    private readonly IConfiguration _configuration;
 
     public MailSettings GetMailSettings()
     {

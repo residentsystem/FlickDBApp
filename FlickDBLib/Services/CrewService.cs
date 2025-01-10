@@ -4,11 +4,11 @@ namespace FlickDBLib.Services
     {
         private readonly IDbContextFactory<MovieContext> _dbfactory;
 
-        Movie? MovieCrew { get; set; }
+        public Movie? MovieCrew { get; set; }
 
-        List<Crew> Crews { get; set; } = new List<Crew>();
+        public List<Crew> Crews { get; set; } = new List<Crew>();
 
-        Crew? Crew { get; set; }
+        public Crew? Crew { get; set; }
 
         public CrewService(IDbContextFactory<MovieContext> dbfactory)
         {

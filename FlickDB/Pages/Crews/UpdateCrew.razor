@@ -76,13 +76,13 @@
 
 @code {
 
-    [Parameter]
+    [Parameter] 
     public int MovieId { get; set; }
 
     [Parameter]
     public int CrewId { get; set; }
 
-    Crew? Crew { get; set; }
+    public Crew? Crew { get; set; }
 
     private bool IsValidSubmit { get; set; }
 

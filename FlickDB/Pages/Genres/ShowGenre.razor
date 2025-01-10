@@ -36,9 +36,9 @@ else
     [Parameter]
     public int MovieId { get; set; }
 
-    Movie? MovieGenre { get; set; }
+    public Movie? MovieGenre { get; set; }
 
-    List<Genre> Genres { get; set; } = new List<Genre>();
+    public List<Genre> Genres { get; set; } = new List<Genre>();
 
     protected override async Task OnInitializedAsync()
     {

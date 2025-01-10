@@ -4,11 +4,11 @@ namespace FlickDBLib.Services
     {
         private readonly IDbContextFactory<MovieContext> _dbfactory;
 
-        Movie? MovieGenre { get; set; }
+        public Movie? MovieGenre { get; set; }
 
-        List<Genre> Genres { get; set; } = new List<Genre>();
+        public List<Genre> Genres { get; set; } = new List<Genre>();
 
-        Genre? Genre { get; set; }
+        public Genre? Genre { get; set; }
 
         public GenreService(IDbContextFactory<MovieContext> dbfactory)
         {
