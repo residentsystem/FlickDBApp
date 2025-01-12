@@ -1,4 +1,4 @@
-@page "/showcrew"
+@page "/viewcrew"
 
 @inject IDbContextFactory<MovieContext> DbFactory
 
@@ -25,7 +25,10 @@
             </svg>
           </div>
         </div>
-        <ManageCrew MovieId="@MovieId" CrewId="@crew.Crewid" />
+        @if (@Mode == "Edit")
+        {
+          <ManageCrew MovieId="@MovieId" CrewId="@crew.Crewid" />
+        }
     </div>
   }
 }
@@ -38,6 +41,9 @@ else
 {
     [Parameter]
     public int MovieId { get; set; }
+
+    [Parameter]
+    public string? Mode { get; set; }
 
     public List<Crew> Crews { get; set; } = new List<Crew>();
 

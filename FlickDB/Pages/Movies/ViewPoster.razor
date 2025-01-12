@@ -1,4 +1,4 @@
-@page "/showposter"
+@page "/viewposter"
 
 @inject NavigationManager UriHelper
 
@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ViewMovie">View</button>
                         <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="EditMovie">Edit</button>
                     </div>
                     <small class="text-body-secondary">@Poster.Duration mins</small>
@@ -31,9 +31,15 @@ else
     [Parameter]
     public MoviePoster? Poster { get; set; }
 
+    private void ViewMovie()
+    {
+        if (Poster != null)
+        UriHelper.NavigateTo($"ViewMovie/{Poster.Movieid}");
+    }
+
     private void EditMovie()
     {
         if (Poster != null)
-        UriHelper.NavigateTo($"ShowMovie/{Poster.Movieid}");
+        UriHelper.NavigateTo($"EditMovie/{Poster.Movieid}");
     }
 }

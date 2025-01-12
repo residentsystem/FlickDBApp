@@ -1,4 +1,4 @@
-@page "/showmovie/{MovieId:int}"
+@page "/viewmovie/{MovieId:int}"
 
 @inject IDbContextFactory<MovieContext> DbFactory
 @inject NavigationManager NavManager
@@ -94,7 +94,7 @@
             </div>
             <div class="col-md-6">
               <div class="list-group d-flex flex-column p-3 gap-3 py-md-5">
-                <ShowGenre MovieId="@MovieId" />
+                <ViewGenre MovieId="@MovieId" />
               </div>
             </div>
           </div>
@@ -105,14 +105,13 @@
       </div>
     </div>
   </div>
-  <ManageMovie MovieId="@MovieId" />
 
   // -------------------------------------------- Actors --------------------------------------------
 
   <div class="container my-5">
     <h2>Actors</h2>
     <div class="row mb-2">
-      <ShowActor MovieId="@MovieId" />
+      <ViewActor MovieId="@MovieId" />
     </div>
   </div>
 
@@ -121,7 +120,7 @@
   <div class="container my-5">
     <h2>Crews</h2>
     <div class="row mb-2">
-      <ShowCrew MovieId="@MovieId" />
+      <ViewCrew MovieId="@MovieId" />
     </div>
   </div>
 }

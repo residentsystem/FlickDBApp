@@ -1,4 +1,4 @@
-@page "/showgenre"
+@page "/viewgenre"
 
 @inject IDbContextFactory<MovieContext> DbFactory
 
@@ -13,10 +13,14 @@
       <div class="d-flex gap-2 w-100 justify-content-between">
         <div>
           <p class="mb-0 opacity-75">@genre.Genre1</p>
+          <p class="mb-0 opacity-75">@Mode</p>
         </div>
       </div>
     </a>
-    <ManageGenre MovieId="@MovieId" GenreId="@genre.Genreid" />
+    @if (@Mode == "Edit")
+    {
+      <ManageGenre MovieId="@MovieId" GenreId="@genre.Genreid" />
+    }
   }
 }
 else
@@ -35,6 +39,9 @@ else
 {
     [Parameter]
     public int MovieId { get; set; }
+
+    [Parameter]
+    public string? Mode { get; set; }
 
     public Movie? MovieGenre { get; set; }
 

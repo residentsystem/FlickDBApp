@@ -58,7 +58,7 @@
 
     private void HandleCanceledSubmit()
     {
-        NavManager.NavigateTo($"/ShowMovie/{MovieId}");
+        NavManager.NavigateTo($"/EditMovie/{MovieId}");
     }
 
     private async Task HandleValidSubmit()
@@ -69,7 +69,7 @@
         bool isSuccess = await genreManager.AddGenre(GenreForm, MovieId);
         if (isSuccess)
         {
-            NavManager.NavigateTo($"/ShowMovie/{MovieId}");
+            NavManager.NavigateTo($"/EditMovie/{MovieId}");
         }
     }
     

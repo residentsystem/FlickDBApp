@@ -74,7 +74,7 @@
 
     private void HandleCanceledSubmit()
     {
-        NavManager.NavigateTo($"/ShowMovie/{MovieId}");
+        NavManager.NavigateTo($"/EditMovie/{MovieId}");
     }
 
     private async Task HandleValidSubmit()
@@ -85,7 +85,7 @@
         bool isSuccess = await actorManager.AddActor(ActorForm, MovieId);
         if (isSuccess)
         {
-            NavManager.NavigateTo($"/ShowMovie/{MovieId}");
+            NavManager.NavigateTo($"/EditMovie/{MovieId}");
         }
     }
     
