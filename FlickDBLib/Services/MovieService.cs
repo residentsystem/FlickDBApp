@@ -65,7 +65,7 @@ namespace FlickDBLib.Services
             }
         }
 
-        public async Task<bool> AddMovie(MovieForm movieform)
+        public async Task<bool> NewMovie(MovieForm movieform)
         {
             var movie = new Movie
             {

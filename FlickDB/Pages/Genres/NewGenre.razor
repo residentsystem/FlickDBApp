@@ -1,4 +1,4 @@
-@page "/addgenre/{MovieId:int}"
+@page "/newgenre/{MovieId:int}"
 
 @inject GenreForm GenreForm
 @inject IDbContextFactory<MovieContext> DbFactory
@@ -66,7 +66,7 @@
         IsValidSubmit = true;
 
         IGenreManager genreManager = new GenreService(DbFactory);
-        bool isSuccess = await genreManager.AddGenre(GenreForm, MovieId);
+        bool isSuccess = await genreManager.NewGenre(GenreForm, MovieId);
         if (isSuccess)
         {
             NavManager.NavigateTo($"/EditMovie/{MovieId}");

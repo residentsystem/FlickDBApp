@@ -50,7 +50,7 @@ namespace FlickDBLib.Services
             }
         }
 
-        public async Task<bool> AddCrew(CrewForm crewform, int movieid)
+        public async Task<bool> NewCrew(CrewForm crewform, int movieid)
         {
             var crew = new Crew
             {

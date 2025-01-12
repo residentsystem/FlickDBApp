@@ -12,7 +12,7 @@ namespace FlickDBLib.Interface
 
         Task<Crew?> ReadCrew(int movieid, int crewid);
 
-        Task<bool> AddCrew(CrewForm crewform, int movieid);
+        Task<bool> NewCrew(CrewForm crewform, int movieid);
 
         Task<bool> RemoveCrew(int crewid);
 

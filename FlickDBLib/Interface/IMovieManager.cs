@@ -10,7 +10,7 @@ namespace FlickDBLib.Interface
 
         Task<Movie> ReadMovie(int movieid);
 
-        Task<bool> AddMovie(MovieForm movieform);
+        Task<bool> NewMovie(MovieForm movieform);
 
         Task<bool> RemoveMovie(int movieid);
 

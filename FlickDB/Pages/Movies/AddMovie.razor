@@ -1,4 +1,4 @@
-@page "/addmovie"
+@page "/newmovie"
 
 @inject MovieForm MovieForm
 @inject IDbContextFactory<MovieContext> DbFactory
@@ -110,7 +110,7 @@
         IsValidSubmit = true;
 
         IMovieManager movieManager = new MovieService(DbFactory);
-        bool isSuccess = await movieManager.AddMovie(MovieForm);
+        bool isSuccess = await movieManager.NewMovie(MovieForm);
         if (isSuccess)
         {
             NavManager.NavigateTo("/");

@@ -50,7 +50,7 @@ namespace FlickDBLib.Services
             }
         }
 
-        public async Task<bool> AddGenre(GenreForm genreform, int movieid)
+        public async Task<bool> NewGenre(GenreForm genreform, int movieid)
         {
             var genre = new Genre
             {

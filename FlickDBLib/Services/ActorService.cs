@@ -50,7 +50,7 @@ namespace FlickDBLib.Services
             }
         }
 
-        public async Task<bool> AddActor(ActorForm actorform, int movieid)
+        public async Task<bool> NewActor(ActorForm actorform, int movieid)
         {
             var actor = new Actor
             {

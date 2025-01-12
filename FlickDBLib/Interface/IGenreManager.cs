@@ -12,7 +12,7 @@ namespace FlickDBLib.Interface
 
         Task<Genre?> ReadGenre(int movieid, int genreid);
 
-        Task<bool> AddGenre(GenreForm genreform, int movieid);
+        Task<bool> NewGenre(GenreForm genreform, int movieid);
 
         Task<bool> RemoveGenre(int genreid);
 

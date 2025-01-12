@@ -12,7 +12,7 @@ namespace FlickDBLib.Interface
 
         Task<Actor?> ReadActor(int movieid, int actorid);
 
-        Task<bool> AddActor(ActorForm actorform, int movieid);
+        Task<bool> NewActor(ActorForm actorform, int movieid);
 
         Task<bool> RemoveActor(int actorid);
 
