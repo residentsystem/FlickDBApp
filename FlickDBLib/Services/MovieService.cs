@@ -39,7 +39,7 @@ namespace FlickDBLib.Services
             }
         }
 
-        public async Task<Movie> ReadMovie(int movieid)
+        public async Task<Movie?> ReadMovie(int movieid)
         {
             using (var db = _dbfactory.CreateDbContext())
             {
@@ -61,6 +61,34 @@ namespace FlickDBLib.Services
                 {
                     db.Dispose();
                     return null;
+                }
+            }
+        }
+
+        public async Task<IEnumerable<MoviePoster>> ReadMoviesByGenre(string genre)
+        {
+            using (var db = _dbfactory.CreateDbContext())
+            {
+                if (db.Movies != null)
+                {
+                    var movies = await db.Movies
+                        .Where(movie => movie.Moviesgenres.Any(mg => mg.Genre.Genre1 == genre))
+                        .Select(movie => new MoviePoster
+                        {
+                            Movieid = movie.Movieid,
+                            Title = movie.Title,
+                            Poster = movie.Poster,
+                            Duration = movie.Duration
+                        })
+                        .ToListAsync();
+                    db.Dispose();
+
+                    return movies;
+                }
+                else
+                {
+                    db.Dispose();
+                    return Enumerable.Empty<MoviePoster>();
                 }
             }
         }

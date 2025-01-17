@@ -1,0 +1,10 @@
+/* -------------------------------------------- Poster -------------------------------------------- */
+
+img.poster {
+    display: block;
+    height: 300px;
+    margin: auto;
+    margin-top: 15px;
+    object-fit: cover;
+    width: 200px;
+}

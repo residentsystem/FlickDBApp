@@ -8,7 +8,9 @@ namespace FlickDBLib.Interface
 
         Task<IEnumerable<MoviePoster>> ReadAllMovies();
 
-        Task<Movie> ReadMovie(int movieid);
+        Task<Movie?> ReadMovie(int movieid);
+
+        Task<IEnumerable<MoviePoster>> ReadMoviesByGenre(string genre);
 
         Task<bool> NewMovie(MovieForm movieform);
 

@@ -1,0 +1,47 @@
+@page "/viewallposter/{Genre?}"
+
+@inject IDbContextFactory<MovieContext> DbFactory
+
+@using FlickDB.Pages.Posters;
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            
+            @if (Posters.Count() == 0)
+            {
+                <p>No movies found in category @Genre.</p>
+            }
+            else
+            {
+              @foreach (var poster in Posters)
+              {
+                <ViewPoster Poster=poster />
+              }
+            }
+            
+        </div>
+    </div>
+</div>
+
+@code {
+
+  [Parameter]
+  public string? Genre { get; set; }
+
+  public IEnumerable<MoviePoster> Posters { get; set; } = new List<MoviePoster>();
+
+  protected override async Task OnParametersSetAsync()
+  {
+    IMovieManager movieManager = new MovieService(DbFactory);
+
+    if (Genre != null)
+    {
+      Posters = await movieManager.ReadMoviesByGenre(Genre);
+    }
+    else
+    {
+      Posters = await movieManager.ReadAllMovies();
+    }
+  }
+}
