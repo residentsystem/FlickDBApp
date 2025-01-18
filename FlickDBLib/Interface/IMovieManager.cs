@@ -2,15 +2,15 @@ namespace FlickDBLib.Interface
 {
     public interface IMovieManager
     {
-        public List<MoviePoster> Posters { get; set; }
+        public List<Movie> Posters { get; set; }
 
-        public int Changes { get; set; }
+        public int Success { get; set; }
 
-        Task<IEnumerable<MoviePoster>> ReadAllMovies();
+        Task<IEnumerable<Movie>> ReadAllMovie();
 
         Task<Movie?> ReadMovie(int movieid);
 
-        Task<IEnumerable<MoviePoster>> ReadMoviesByGenre(string genre);
+        Task<IEnumerable<Movie>> ReadMoviesByGenre(string genre);
 
         Task<bool> NewMovie(MovieForm movieform);
 

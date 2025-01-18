@@ -4,22 +4,22 @@ namespace FlickDBLib.Services
     {
         private readonly IDbContextFactory<MovieContext> _dbfactory;
 
-        public List<MoviePoster> Posters { get; set; } = new List<MoviePoster>();
+        public List<Movie> Posters { get; set; } = new List<Movie>();
 
-        public int Changes { get; set; }
+        public int Success { get; set; }
 
         public MovieService(IDbContextFactory<MovieContext> dbfactory)
         {
             _dbfactory = dbfactory;
         }
 
-        public async Task<IEnumerable<MoviePoster>> ReadAllMovies()
+        public async Task<IEnumerable<Movie>> ReadAllMovie()
         {
             using (var db = _dbfactory.CreateDbContext())
             {
                 if (db.Movies != null)
                 {
-                    var movies = await db.Movies.Select(movie => new MoviePoster
+                    var movies = await db.Movies.Select(movie => new Movie
                     {
                         Movieid = movie.Movieid,
                         Title = movie.Title,
@@ -34,7 +34,7 @@ namespace FlickDBLib.Services
                 else
                 {
                     db.Dispose();
-                    return Enumerable.Empty<MoviePoster>();
+                    return Enumerable.Empty<Movie>();
                 }
             }
         }
@@ -65,7 +65,7 @@ namespace FlickDBLib.Services
             }
         }
 
-        public async Task<IEnumerable<MoviePoster>> ReadMoviesByGenre(string genre)
+        public async Task<IEnumerable<Movie>> ReadMoviesByGenre(string genre)
         {
             using (var db = _dbfactory.CreateDbContext())
             {
@@ -73,7 +73,7 @@ namespace FlickDBLib.Services
                 {
                     var movies = await db.Movies
                         .Where(movie => movie.Moviesgenres.Any(mg => mg.Genre.Genre1 == genre))
-                        .Select(movie => new MoviePoster
+                        .Select(movie => new Movie
                         {
                             Movieid = movie.Movieid,
                             Title = movie.Title,
@@ -88,7 +88,7 @@ namespace FlickDBLib.Services
                 else
                 {
                     db.Dispose();
-                    return Enumerable.Empty<MoviePoster>();
+                    return Enumerable.Empty<Movie>();
                 }
             }
         }
@@ -159,10 +159,10 @@ namespace FlickDBLib.Services
                         }
 
                         db.Entry(movie).State = EntityState.Deleted;
-                        Changes = await db.SaveChangesAsync();
+                        Success = await db.SaveChangesAsync();
                         db.Dispose();
                     }
-                    return Changes > 0;
+                    return Success > 0;
                 }
                 else
                 {

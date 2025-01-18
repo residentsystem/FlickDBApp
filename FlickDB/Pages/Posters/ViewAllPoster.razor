@@ -29,7 +29,7 @@
   [Parameter]
   public string? Genre { get; set; }
 
-  public IEnumerable<MoviePoster> Posters { get; set; } = new List<MoviePoster>();
+  public IEnumerable<Movie> Posters { get; set; } = new List<Movie>();
 
   protected override async Task OnParametersSetAsync()
   {
@@ -41,7 +41,7 @@
     }
     else
     {
-      Posters = await movieManager.ReadAllMovies();
+      Posters = await movieManager.ReadAllMovie();
     }
   }
 }

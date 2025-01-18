@@ -4,9 +4,9 @@ namespace FlickDBLib.Services
     {
         private readonly IDbContextFactory<MovieContext> _dbfactory;
 
-        public Movie? MovieActor { get; set; }
-
         public List<Actor> Actors { get; set; } = new List<Actor>();
+
+        public Movie? MovieActor { get; set; }
 
         public Actor? Actor { get; set; }
 
