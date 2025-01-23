@@ -52,8 +52,8 @@
 
     private async Task DeleteCrew()
     {
-      ICrewManager crewManager = new CrewService(DbFactory);
-      bool isSuccess = await crewManager.RemoveCrew(CrewId);
+      DbCrewTable crewtable = new DbCrewTable(DbFactory);
+      bool isSuccess = await crewtable.DeleteRecord(CrewId);
       if (isSuccess)
       {
           NavManager.NavigateTo(NavManager.Uri, forceLoad: true);

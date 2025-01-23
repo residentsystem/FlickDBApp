@@ -52,8 +52,8 @@
 
     private async Task DeleteMovie()
     {
-      IMovieManager movieManager = new MovieService(DbFactory);
-      bool isSuccess = await movieManager.RemoveMovie(MovieId);
+      DbMovieTable movietable = new DbMovieTable(DbFactory);
+      bool isSuccess = await movietable.DeleteRecord(MovieId);
       if (isSuccess)
       {
           NavManager.NavigateTo("/");

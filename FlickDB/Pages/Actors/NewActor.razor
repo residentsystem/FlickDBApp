@@ -81,8 +81,8 @@
     {
         IsValidSubmit = true;
 
-        IActorManager actorManager = new ActorService(DbFactory);
-        bool isSuccess = await actorManager.NewActor(ActorForm, MovieId);
+        DbActorTable actortable = new DbActorTable(DbFactory);
+        bool isSuccess = await actortable.CreateRecord(ActorForm, MovieId);
         if (isSuccess)
         {
             NavManager.NavigateTo($"/EditMovie/{MovieId}");

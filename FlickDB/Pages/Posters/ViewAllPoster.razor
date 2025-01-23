@@ -33,15 +33,15 @@
 
   protected override async Task OnParametersSetAsync()
   {
-    IMovieManager movieManager = new MovieService(DbFactory);
+    DbMovieTable movietable = new DbMovieTable(DbFactory);
 
     if (Genre != null)
     {
-      Posters = await movieManager.ReadMoviesByGenre(Genre);
+      Posters = await movietable.ReadRecordByGenre(Genre);
     }
     else
     {
-      Posters = await movieManager.ReadAllMovie();
+      Posters = await movietable.ReadAllRecord();
     }
   }
 }

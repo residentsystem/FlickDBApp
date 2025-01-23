@@ -85,8 +85,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        IActorManager actorManager = new ActorService(DbFactory);
-        Actor = await actorManager.ReadActor(MovieId, ActorId);
+        DbActorTable actortable = new DbActorTable(DbFactory);
+        Actor = await actortable.ReadSingleRecord(MovieId, ActorId);
 
         ActorForm.Firstname = Actor.Firstname;
         ActorForm.Lastname = Actor.Lastname;
@@ -105,8 +105,8 @@
     {
         IsValidSubmit = true;
 
-        IActorManager actorManager = new ActorService(DbFactory);
-        bool isSuccess = await actorManager.UpdateActor(ActorForm, ActorId);
+        DbActorTable actortable = new DbActorTable(DbFactory);
+        bool isSuccess = await actortable.UpdateRecord(ActorForm, ActorId);
         if (isSuccess)
         {
             NavManager.NavigateTo(NavManager.Uri, forceLoad: true);

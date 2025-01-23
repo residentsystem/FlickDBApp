@@ -109,8 +109,8 @@
     {
         IsValidSubmit = true;
 
-        IMovieManager movieManager = new MovieService(DbFactory);
-        bool isSuccess = await movieManager.NewMovie(MovieForm);
+        DbMovieTable miovietable = new DbMovieTable(DbFactory);
+        bool isSuccess = await miovietable.CreateRecord(MovieForm);
         if (isSuccess)
         {
             NavManager.NavigateTo("/");

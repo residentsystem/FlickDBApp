@@ -63,8 +63,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        IGenreManager genreManager = new GenreService(DbFactory);
-        Genre = await genreManager.ReadGenre(MovieId, GenreId);
+        DbGenreTable genretable = new DbGenreTable(DbFactory);
+        Genre = await genretable.ReadSingleRecord(MovieId, GenreId);
 
         GenreForm.Genre1 = Genre.Genre1;
     }
@@ -78,8 +78,8 @@
     {
         IsValidSubmit = true;
 
-        IGenreManager genreManager = new GenreService(DbFactory);
-        bool isSuccess = await genreManager.UpdateGenre(GenreForm, GenreId);
+        DbGenreTable genretable = new DbGenreTable(DbFactory);
+        bool isSuccess = await genretable.UpdateRecord(GenreForm, GenreId);
         if (isSuccess)
         {
             NavManager.NavigateTo(NavManager.Uri, forceLoad: true);

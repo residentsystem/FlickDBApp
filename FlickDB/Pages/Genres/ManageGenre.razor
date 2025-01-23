@@ -52,8 +52,8 @@
 
     private async Task DeleteGenre()
     {
-      IGenreManager genreManager = new GenreService(DbFactory);
-      bool isSuccess = await genreManager.RemoveGenre(GenreId);
+      DbGenreTable genretable = new DbGenreTable(DbFactory);
+      bool isSuccess = await genretable.DeleteRecord(GenreId);
       if (isSuccess)
       {
           NavManager.NavigateTo(NavManager.Uri, forceLoad: true);

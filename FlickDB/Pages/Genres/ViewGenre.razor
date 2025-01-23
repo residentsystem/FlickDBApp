@@ -48,7 +48,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        IGenreManager genreManager = new GenreService(DbFactory);
-        Genres = (await genreManager.ReadAllGenre(MovieId)).ToList();
+        DbGenreTable genretable = new DbGenreTable(DbFactory);
+        Genres = (await genretable.ReadAllRecord(MovieId)).ToList();
     }
 }

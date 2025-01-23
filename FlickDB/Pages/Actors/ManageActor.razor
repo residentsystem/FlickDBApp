@@ -52,8 +52,8 @@
 
     private async Task DeleteActor()
     {
-      IActorManager actorManager = new ActorService(DbFactory);
-      bool isSuccess = await actorManager.RemoveActor(ActorId);
+      DbActorTable actortable = new DbActorTable(DbFactory);
+      bool isSuccess = await actortable.DeleteRecord(ActorId);
       if (isSuccess)
       {
           NavManager.NavigateTo(NavManager.Uri, forceLoad: true);

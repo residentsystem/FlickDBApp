@@ -49,7 +49,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ICrewManager crewManager = new CrewService(DbFactory);
-        Crews = (await crewManager.ReadAllCrew(MovieId)).ToList();
+        DbCrewTable crewtable = new DbCrewTable(DbFactory);
+        Crews = (await crewtable.ReadAllRecord(MovieId)).ToList();
     }
 }

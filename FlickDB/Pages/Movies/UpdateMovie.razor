@@ -122,8 +122,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        IMovieManager movieManager = new MovieService(DbFactory);
-        Movie = await movieManager.ReadMovie(MovieId);
+        DbMovieTable movietable = new DbMovieTable(DbFactory);
+        Movie = await movietable.ReadSingleRecord(MovieId);
 
         // Set the form values to the movie duration values
         MovieForm.Title = Movie.Title;
@@ -145,8 +145,8 @@
     {
         IsValidSubmit = true;
 
-        IMovieManager movieManager = new MovieService(DbFactory);
-        bool isSuccess = await movieManager.UpdateMovie(MovieForm, MovieId);
+        DbMovieTable movietable = new DbMovieTable(DbFactory);
+        bool isSuccess = await movietable.UpdateRecord(MovieForm, MovieId);
         if (isSuccess)
         {
             NavManager.NavigateTo(NavManager.Uri, forceLoad: true);

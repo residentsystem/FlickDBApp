@@ -90,15 +90,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ICrewManager crewManager = new CrewService(DbFactory);
-        Crew = await crewManager.ReadCrew(MovieId, CrewId);
+        DbCrewTable crewtable = new DbCrewTable(DbFactory);
+        Crew = await crewtable.ReadSingleRecord(MovieId, CrewId);
 
-        CrewForm.Firstname = Crew.Firstname;
-        CrewForm.Lastname = Crew.Lastname;
-        CrewForm.Birth = Crew.Birth.HasValue ? Crew.Birth.Value : DateOnly.MinValue;
-        CrewForm.Biography = Crew.Biography;
-        CrewForm.Picture = Crew.Picture;
-        CrewForm.Position = Crew.Position;
+        if (Crew != null)
+        {
+            CrewForm.Firstname = Crew?.Firstname ?? string.Empty;
+            CrewForm.Lastname = Crew?.Lastname ?? string.Empty;
+            CrewForm.Birth = Crew?.Birth.HasValue == true ? Crew.Birth.Value : DateOnly.MinValue;
+            CrewForm.Biography = Crew?.Biography ?? string.Empty;
+            CrewForm.Picture = Crew?.Picture ?? string.Empty;
+            CrewForm.Position = Crew?.Position ?? string.Empty;
+        }
     }
 
     private void HandleCanceledSubmit()
@@ -110,8 +113,8 @@
     {
         IsValidSubmit = true;
 
-        ICrewManager crewManager = new CrewService(DbFactory);
-        bool isSuccess = await crewManager.UpdateCrew(CrewForm, CrewId);
+        DbCrewTable crewtable = new DbCrewTable(DbFactory);
+        bool isSuccess = await crewtable.UpdateRecord(CrewForm, CrewId);
         if (isSuccess)
         {
             NavManager.NavigateTo(NavManager.Uri, forceLoad: true);

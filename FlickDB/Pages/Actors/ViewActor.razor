@@ -52,7 +52,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        IActorManager actorManager = new ActorService(DbFactory);
-        Actors = (await actorManager.ReadAllActor(MovieId)).ToList();
+        DbActorTable actortable = new DbActorTable(DbFactory);
+        Actors = (await actortable.ReadAllRecord(MovieId)).ToList();
     }
 }
