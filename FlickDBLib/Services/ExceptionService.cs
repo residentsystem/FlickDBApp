@@ -2,7 +2,7 @@ namespace FlickDBLib.Services
 {
     public class FindMovieNullException : ArgumentNullException
     {
-        public FindMovieNullException (string message = "Could not FIND any movie. Verify that the movie still exist and try again.") : base (message)
+        public FindMovieNullException (string message = "Could not FIND any movie. Verify the movie still exist and try again.") : base (message)
         {
 
         }
@@ -10,7 +10,7 @@ namespace FlickDBLib.Services
     
     public class FindArgumentNullException : ArgumentNullException
     {
-        public FindArgumentNullException (string message = "Could not FIND this item. Verify that the item still exist and try again.") : base (message)
+        public FindArgumentNullException (string message = "Could not FIND any item. Verify the item still exist and try again.") : base (message)
         {
 
         }
@@ -18,7 +18,7 @@ namespace FlickDBLib.Services
 
     public class FindInvalidOperationException : InvalidOperationException
     {
-        public FindInvalidOperationException (string message = "Could not FIND this item. Verify that the item still exist and try again.") : base (message)
+        public FindInvalidOperationException (string message = "Could not FIND any item. Verify the item still exist and try again.") : base (message)
         {
 
         }
@@ -42,7 +42,7 @@ namespace FlickDBLib.Services
 
     public class DeleteArgumentNullException : ArgumentNullException
     {
-        public DeleteArgumentNullException (string message = "Could not DELETE this item. Verify that the item still exist and try again.") : base (message)
+        public DeleteArgumentNullException (string message = "Could not DELETE this item. Verify the item still exist and try again.") : base (message)
         {
 
         }
@@ -50,7 +50,7 @@ namespace FlickDBLib.Services
 
     public class DeleteInvalidOperationException : InvalidOperationException
     {
-        public DeleteInvalidOperationException (string message = "Could not DELETE this item. Verify that the item still exist and try again.") : base (message)
+        public DeleteInvalidOperationException (string message = "Could not DELETE this item. Verify the item still exist and try again.") : base (message)
         {
 
         }
@@ -58,7 +58,7 @@ namespace FlickDBLib.Services
 
     public class EditArgumentNullException : ArgumentNullException
     {
-        public EditArgumentNullException (string message = "Could not EDIT this item. Verify that the item still exist and try again.") : base (message)
+        public EditArgumentNullException (string message = "Could not EDIT this item. Verify the item still exist and try again.") : base (message)
         {
 
         }
@@ -66,7 +66,7 @@ namespace FlickDBLib.Services
 
     public class EditNullReferenceException : NullReferenceException
     {
-        public EditNullReferenceException (string message = "Could not EDIT this item. Verify that the item still exist and try again.") : base (message)
+        public EditNullReferenceException (string message = "Could not EDIT this item. Verify the item still exist and try again.") : base (message)
         {
 
         }

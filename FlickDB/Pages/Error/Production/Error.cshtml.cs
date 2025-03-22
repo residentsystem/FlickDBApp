@@ -30,38 +30,40 @@ namespace FlickDB.Pages.Error.Production
 
         public void OnGet()
         {
-            // Bind the content of default configuration file "appsettings.json" to an instance of DatabaseSettings. 
-            //DatabaseEnvironment connectionstring = _configuration.GetSection("ConnectionString").Get<DatabaseEnvironment>();
-
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
 
             MySqlExeptionMessage = _database.MySqlConnectionStatus(_database.GetConnectionString());
 
             var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
+            if (exceptionHandlerPathFeature?.Error is FindMovieNullException)
+            {
+                ExceptionMessage = "Could not FIND any movie. Verify the movie still exist and try again.";
+            }
+
             if (exceptionHandlerPathFeature?.Error is FindArgumentNullException)
             {
-                ExceptionMessage = "Could not FIND this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not FIND any item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is FindInvalidOperationException)
             {
-                ExceptionMessage = "Could not FIND this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not FIND any item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is DeleteArgumentNullException)
             {
-                ExceptionMessage = "Could not DELETE this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not DELETE this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is EditArgumentNullException)
             {
-                ExceptionMessage = "Could not EDIT this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not EDIT this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is EditNullReferenceException)
             {
-                ExceptionMessage = "Could not EDIT this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not EDIT this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is SettingFileNullReferenceException)
@@ -72,9 +74,6 @@ namespace FlickDB.Pages.Error.Production
 
         public void OnPost()
         {
-            // Bind the content of default configuration file "appsettings.json" to an instance of DatabaseSettings. 
-            //DatabaseEnvironment connectionstring = _configuration.GetSection("ConnectionString").Get<DatabaseEnvironment>();
-
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
 
             MySqlExeptionMessage = _database.MySqlConnectionStatus(_database.GetConnectionString());
@@ -83,12 +82,12 @@ namespace FlickDB.Pages.Error.Production
 
             if (exceptionHandlerPathFeature?.Error is DeleteArgumentNullException)
             {
-                ExceptionMessage = "Could not DELETE this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not DELETE this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is DeleteInvalidOperationException)
             {
-                ExceptionMessage = "Could not DELETE this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not DELETE this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is DbUpdateConcurrencyException)

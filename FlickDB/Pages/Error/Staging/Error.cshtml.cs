@@ -38,32 +38,32 @@ namespace FlickDB.Pages.Error.Staging
 
             if (exceptionHandlerPathFeature?.Error is FindMovieNullException)
             {
-                ExceptionMessage = "Could not FIND any movie. Verify that the movie still exist and try again.";
+                ExceptionMessage = "Could not FIND any movie. Verify the movie still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is FindArgumentNullException)
             {
-                ExceptionMessage = "Could not FIND this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not FIND any item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is FindInvalidOperationException)
             {
-                ExceptionMessage = "Could not FIND this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not FIND any item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is DeleteArgumentNullException)
             {
-                ExceptionMessage = "Could not DELETE this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not DELETE this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is EditArgumentNullException)
             {
-                ExceptionMessage = "Could not EDIT this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not EDIT this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is EditNullReferenceException)
             {
-                ExceptionMessage = "Could not EDIT this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not EDIT this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is SettingFileNullReferenceException)
@@ -82,12 +82,12 @@ namespace FlickDB.Pages.Error.Staging
 
             if (exceptionHandlerPathFeature?.Error is DeleteArgumentNullException)
             {
-                ExceptionMessage = "Could not DELETE this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not DELETE this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is DeleteInvalidOperationException)
             {
-                ExceptionMessage = "Could not DELETE this item. Verify that the item still exist and try again.";
+                ExceptionMessage = "Could not DELETE this item. Verify the item still exist and try again.";
             }
 
             if (exceptionHandlerPathFeature?.Error is DbUpdateConcurrencyException)
