@@ -23,16 +23,20 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                    {
-                        MovieActor = await db.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == movieid);
+                    try {
+                        if (db.Movies != null)
+                        {
+                            MovieActor = await db.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == movieid);
+                        }
+
+                        if (MovieActor != null)
+                        Actors = await Task.FromResult(MovieActor.Moviesactors.Select(a => a.Actor).ToList());
+
+                        db.Dispose();
+                        return Actors;
+                    } catch (Exception) {
+                        throw new FindArgumentNullException();
                     }
-
-                    if (MovieActor != null)
-                    Actors = await Task.FromResult(MovieActor.Moviesactors.Select(a => a.Actor).ToList());
-
-                    db.Dispose();
-                    return Actors;
                 }
             }
             else
@@ -50,14 +54,18 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                        MovieActor = await db.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == movieid);
-                
-                    if (MovieActor != null)
-                        Actor = await Task.FromResult(MovieActor.Moviesactors.Select(a => a.Actor).FirstOrDefault(a => a.Actorid == actorid));
+                    try {
+                        if (db.Movies != null)
+                            MovieActor = await db.Movies.Include(ma => ma.Moviesactors).ThenInclude(a => a.Actor).FirstOrDefaultAsync(m => m.Movieid == movieid);
+                    
+                        if (MovieActor != null)
+                            Actor = await Task.FromResult(MovieActor.Moviesactors.Select(a => a.Actor).FirstOrDefault(a => a.Actorid == actorid));
 
-                    db.Dispose();
-                    return Actor;
+                        db.Dispose();
+                        return Actor;
+                    } catch (Exception) {
+                        throw new FindArgumentNullException();
+                    }
                 }
             }
             else
@@ -84,28 +92,32 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                    {
-                        Movie? movie = await db.Movies.FindAsync(movieid);
-
-                        if (movie != null)
+                    try {
+                        if (db.Movies != null)
                         {
-                            var MovieActor = new MovieActor { Movie = movie, Actor = actor, Character = actorform.Character };
-                            db.Moviesactors?.Add(MovieActor);
-                            int changes = await db.SaveChangesAsync();
-                            db.Dispose();
-                            return changes > 0;
+                            Movie? movie = await db.Movies.FindAsync(movieid);
+
+                            if (movie != null)
+                            {
+                                var MovieActor = new MovieActor { Movie = movie, Actor = actor, Character = actorform.Character };
+                                db.Moviesactors?.Add(MovieActor);
+                                int changes = await db.SaveChangesAsync();
+                                db.Dispose();
+                                return changes > 0;
+                            }
+                            else
+                            {
+                                db.Dispose();
+                                return false;
+                            }
                         }
                         else
                         {
                             db.Dispose();
                             return false;
                         }
-                    }
-                    else
-                    {
-                        db.Dispose();
-                        return false;
+                    } catch (Exception) {
+                        throw new CreateArgumentNullException();
                     }
                 }
             }
@@ -119,20 +131,24 @@ namespace FlickDBLib.Services
         {
             using (var db = _dbfactory.CreateDbContext())
             {
-                if (db.Actors != null)
-                {
-                    var actor = await db.Actors.FindAsync(actorid);
+                try {
+                    if (db.Actors != null)
+                    {
+                        var actor = await db.Actors.FindAsync(actorid);
 
-                    if (actor != null)
-                    db.Entry(actor).State = EntityState.Deleted;
-                    int changes = await db.SaveChangesAsync();
-                    db.Dispose();
-                    return changes > 0;
-                }
-                else
-                {
-                    db.Dispose();
-                    return false;
+                        if (actor != null)
+                        db.Entry(actor).State = EntityState.Deleted;
+                        int changes = await db.SaveChangesAsync();
+                        db.Dispose();
+                        return changes > 0;
+                    }
+                    else
+                    {
+                        db.Dispose();
+                        return false;
+                    }
+                } catch (Exception) {
+                    throw new DeleteArgumentNullException();
                 }
             }
         }
@@ -146,37 +162,41 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Actors != null && db.Moviesactors != null)
-                    {
-                        var actor = await db.Actors.FindAsync(actorid);
-                        var movieactor = await db.Moviesactors.FirstOrDefaultAsync(ma => ma.Actorid == actorid);
-
-                        if (actor != null && movieactor != null)
+                    try {
+                        if (db.Actors != null && db.Moviesactors != null)
                         {
-                            actor.Firstname = actorform.Firstname;
-                            actor.Lastname = actorform.Lastname;
-                            actor.Birth = actorform.Birth;
-                            actor.Biography = actorform.Biography;
-                            actor.Picture = actorform.Picture;
-                            movieactor.Character = actorform.Character;
+                            var actor = await db.Actors.FindAsync(actorid);
+                            var movieactor = await db.Moviesactors.FirstOrDefaultAsync(ma => ma.Actorid == actorid);
 
-                            db.Entry(actor).State = EntityState.Modified;
-                            db.Entry(movieactor).State = EntityState.Modified;
-                            int changes = await db.SaveChangesAsync();
-                        
-                            db.Dispose();
-                            return changes > 0;
+                            if (actor != null && movieactor != null)
+                            {
+                                actor.Firstname = actorform.Firstname;
+                                actor.Lastname = actorform.Lastname;
+                                actor.Birth = actorform.Birth;
+                                actor.Biography = actorform.Biography;
+                                actor.Picture = actorform.Picture;
+                                movieactor.Character = actorform.Character;
+
+                                db.Entry(actor).State = EntityState.Modified;
+                                db.Entry(movieactor).State = EntityState.Modified;
+                                int changes = await db.SaveChangesAsync();
+                            
+                                db.Dispose();
+                                return changes > 0;
+                            }
+                            else
+                            {
+                                db.Dispose();
+                                return false;
+                            }
                         }
                         else
                         {
                             db.Dispose();
                             return false;
                         }
-                    }
-                    else
-                    {
-                        db.Dispose();
-                        return false;
+                    } catch (Exception) {
+                        throw new UpdateArgumentNullException();
                     }
                 }
             }

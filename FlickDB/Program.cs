@@ -33,14 +33,21 @@ builder.Services.AddScoped<GenreForm>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseDeveloperExceptionPage();
+}
+else if (app.Environment.IsStaging())
+{
+    app.UseHttpsRedirection();
+    app.UseExceptionHandler("/Error/Staging/Error");
+}
+else
+{
+    app.UseHttpsRedirection();
+    app.UseExceptionHandler("/Error/Production/Error");
     app.UseHsts();
 }
-
-app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 

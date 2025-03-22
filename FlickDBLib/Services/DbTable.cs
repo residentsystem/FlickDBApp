@@ -17,26 +17,30 @@ namespace FlickDBLib.Services
         {
             using (var db = _dbfactory.CreateDbContext())
             {
-                if (db.Movies != null)
-                {
-                    var movies = await db.Movies
-                        .Where(movie => movie.Moviesgenres.Any(mg => mg.Genre.Genre1 == genre))
-                        .Select(movie => new Movie
-                        {
-                            Movieid = movie.Movieid,
-                            Title = movie.Title,
-                            Poster = movie.Poster,
-                            Duration = movie.Duration
-                        })
-                        .ToListAsync();
-                    db.Dispose();
+                try {
+                    if (db.Movies != null)
+                    {
+                        var movies = await db.Movies
+                            .Where(movie => movie.Moviesgenres.Any(mg => mg.Genre.Genre1 == genre))
+                            .Select(movie => new Movie
+                            {
+                                Movieid = movie.Movieid,
+                                Title = movie.Title,
+                                Poster = movie.Poster,
+                                Duration = movie.Duration
+                            })
+                            .ToListAsync();
+                            db.Dispose();
 
-                    return movies;
-                }
-                else
-                {
-                    db.Dispose();
-                    return Enumerable.Empty<Movie>();
+                        return movies;
+                    }
+                    else
+                    {
+                        db.Dispose();
+                        return Enumerable.Empty<Movie>();
+                    }
+                } catch (Exception) {
+                    throw new FindMovieNullException();
                 }
             }
         }

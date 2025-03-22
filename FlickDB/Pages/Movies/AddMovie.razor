@@ -115,6 +115,10 @@
         {
             NavManager.NavigateTo("/");
         }
+        else
+        {
+            throw new CreateArgumentNullException();
+        }
     }
 
     private void HandleInvalidSubmit()

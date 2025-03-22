@@ -88,12 +88,19 @@
         DbActorTable actortable = new DbActorTable(DbFactory);
         Actor = await actortable.ReadSingleRecord(MovieId, ActorId);
 
-        ActorForm.Firstname = Actor.Firstname;
-        ActorForm.Lastname = Actor.Lastname;
-        ActorForm.Birth = Actor.Birth.HasValue ? Actor.Birth.Value : DateOnly.MinValue;
-        ActorForm.Biography = Actor.Biography;
-        ActorForm.Picture = Actor.Picture;
-        ActorForm.Character = Actor.Moviesactors.First().Character;
+        if (Actor != null)
+        {
+            ActorForm.Firstname = Actor.Firstname;
+            ActorForm.Lastname = Actor.Lastname;
+            ActorForm.Birth = Actor.Birth.HasValue ? Actor.Birth.Value : DateOnly.MinValue;
+            ActorForm.Biography = Actor.Biography;
+            ActorForm.Picture = Actor.Picture;
+            ActorForm.Character = Actor.Moviesactors.First().Character;
+        }
+        else
+        {
+            throw new FindArgumentNullException();
+        }
     }
 
     private void HandleCanceledSubmit()
@@ -110,6 +117,10 @@
         if (isSuccess)
         {
             NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+        }
+        else
+        {
+            throw new UpdateArgumentNullException();
         }
     }
 

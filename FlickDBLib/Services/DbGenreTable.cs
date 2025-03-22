@@ -25,17 +25,20 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    
-                    if (db.Movies != null)
-                    {
-                        MovieGenre = await db.Movies.Include(mg => mg.Moviesgenres).ThenInclude(g => g.Genre).FirstOrDefaultAsync(m => m.Movieid == movieid);
+                    try {
+                        if (db.Movies != null)
+                        {
+                            MovieGenre = await db.Movies.Include(mg => mg.Moviesgenres).ThenInclude(g => g.Genre).FirstOrDefaultAsync(m => m.Movieid == movieid);
+                        }
+
+                        if (MovieGenre != null)
+                        Genres = await Task.FromResult(MovieGenre.Moviesgenres.Select(g => g.Genre).ToList());
+
+                        db.Dispose();
+                        return Genres;
+                    } catch (Exception) {
+                        throw new FindArgumentNullException();
                     }
-
-                    if (MovieGenre != null)
-                    Genres = await Task.FromResult(MovieGenre.Moviesgenres.Select(g => g.Genre).ToList());
-
-                    db.Dispose();
-                    return Genres;
                 }
             }
             else
@@ -53,14 +56,18 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                        MovieGenre = await db.Movies.Include(mg => mg.Moviesgenres).ThenInclude(g => g.Genre).FirstOrDefaultAsync(m => m.Movieid == movieid);
-                    
-                    if (MovieGenre != null)
-                        Genre = await Task.FromResult(MovieGenre.Moviesgenres.Select(g => g.Genre).FirstOrDefault(g => g.Genreid == genreid));
+                    try {
+                        if (db.Movies != null)
+                            MovieGenre = await db.Movies.Include(mg => mg.Moviesgenres).ThenInclude(g => g.Genre).FirstOrDefaultAsync(m => m.Movieid == movieid);
+                        
+                        if (MovieGenre != null)
+                            Genre = await Task.FromResult(MovieGenre.Moviesgenres.Select(g => g.Genre).FirstOrDefault(g => g.Genreid == genreid));
 
-                    db.Dispose();
-                    return Genre;
+                        db.Dispose();
+                        return Genre;
+                    } catch (Exception) {
+                        throw new FindArgumentNullException();
+                    }
                 }
             }
             else
@@ -83,28 +90,32 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                    {
-                        Movie? movie = await db.Movies.FindAsync(movieid);
-
-                        if (movie != null)
+                    try {
+                        if (db.Movies != null)
                         {
-                            var MovieGenre = new MovieGenre { Movie = movie, Genre = genre };
-                            db.Moviesgenres?.Add(MovieGenre);
-                            int changes = await db.SaveChangesAsync();
-                            db.Dispose();
-                            return changes > 0;
+                            Movie? movie = await db.Movies.FindAsync(movieid);
+
+                            if (movie != null)
+                            {
+                                var MovieGenre = new MovieGenre { Movie = movie, Genre = genre };
+                                db.Moviesgenres?.Add(MovieGenre);
+                                int changes = await db.SaveChangesAsync();
+                                db.Dispose();
+                                return changes > 0;
+                            }
+                            else
+                            {
+                                db.Dispose();
+                                return false;
+                            }
                         }
                         else
                         {
                             db.Dispose();
                             return false;
                         }
-                    }
-                    else
-                    {
-                        db.Dispose();
-                        return false;
+                    } catch (Exception) {
+                        throw new CreateArgumentNullException();
                     }
                 }
             }
@@ -118,20 +129,24 @@ namespace FlickDBLib.Services
         {
             using (var db = _dbfactory.CreateDbContext())
             {
-                if (db.Genres != null)
-                {
-                    var genre = await db.Genres.FindAsync(genreid);
+                try {
+                    if (db.Genres != null)
+                    {
+                        var genre = await db.Genres.FindAsync(genreid);
 
-                    if (genre != null)
-                    db.Entry(genre).State = EntityState.Deleted;
-                    int changes = await db.SaveChangesAsync();
-                    db.Dispose();
-                    return changes > 0;
-                }
-                else
-                {
-                    db.Dispose();
-                    return false;
+                        if (genre != null)
+                        db.Entry(genre).State = EntityState.Deleted;
+                        int changes = await db.SaveChangesAsync();
+                        db.Dispose();
+                        return changes > 0;
+                    }
+                    else
+                    {
+                        db.Dispose();
+                        return false;
+                    }
+                } catch (Exception) {
+                    throw new DeleteArgumentNullException();
                 }
             }
         }
@@ -145,6 +160,7 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
+                    try {
                     if (db.Genres != null && db.Moviesgenres != null)
                     {
                         var genre = await db.Genres.FindAsync(genreid);
@@ -170,6 +186,9 @@ namespace FlickDBLib.Services
                     {
                         db.Dispose();
                         return false;
+                    }
+                    } catch (Exception) {
+                        throw new UpdateArgumentNullException();
                     }
                 }
             }

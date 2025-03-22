@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+@inject NavigationManager Navigation
+
 <PageTitle>FlickDB</PageTitle>
 
 <div class="page">
@@ -28,7 +30,43 @@
         </div>
 
         <article class="content px-4">
-            @Body
+            <ErrorBoundary @ref="FlickDBErrorBoundary">
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent Context="ex">
+                    <div class="container error">
+                        <section class="row col-sm-12">
+                            <article class="col-sm-12 col-md-12 col-lg-8 col-center">
+                                <div class="box-error-title">
+                                    <h1>Error.</h1>
+                                    <h2>An error occurred while processing your request.</h2>
+                                </div>
+                                <hr />
+                                <div class="box-error-message">
+                                    An error occurred: @ex.Message
+                                </div>
+                                <hr />
+                                <div class="box-error-contact">
+                                    <h3>Contact us</h3>
+                                    <p>Need help? Please send us an email if the issue persist.</p>
+                                    <button class="btn btn-dark" @onclick="_ => RecoverBoundary()">Continue</button>
+                                </div>
+                            </article>
+                        </section>
+                    </div>
+                </ErrorContent>
+            </ErrorBoundary>
         </article>
     </main>
 </div>
+
+@code {
+    public ErrorBoundary? FlickDBErrorBoundary { get; set; }
+
+    protected void RecoverBoundary()
+    {
+        FlickDBErrorBoundary?.Recover();
+        Navigation.NavigateTo("/");
+    }
+}

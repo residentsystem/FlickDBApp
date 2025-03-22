@@ -10,7 +10,17 @@
             
             @if (Posters.Count() == 0)
             {
-                <p>No movies found in category @Genre.</p>
+                if (Genre == null)
+                {
+                  <p>No movie found. Please <a href="/newmovie">create</a> a movie.</p>
+                }
+                else 
+                {
+                  <ul>
+                    <li><p>No movie found in category <b>@Genre</b>.</p></li>
+                    <li><a class="btn btn-dark" href="/poster">Back</a></li>
+                  </ul>
+                }
             }
             else
             {

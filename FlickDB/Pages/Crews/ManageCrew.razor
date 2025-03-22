@@ -58,6 +58,10 @@
       {
           NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
       }
+      else
+      {
+          throw new DeleteArgumentNullException();
+      }
     }
 
     private void ToggleDeleteVisibility()

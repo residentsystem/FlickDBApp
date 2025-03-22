@@ -117,5 +117,10 @@
     {
       DbMovieTable movietable = new DbMovieTable(DbFactory);
       Movie = await movietable.ReadSingleRecord(MovieId);
+
+      if (Movie == null)
+      {
+        throw new EditArgumentNullException();
+      }
     }
 }

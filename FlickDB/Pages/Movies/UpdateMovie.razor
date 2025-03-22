@@ -125,15 +125,21 @@
         DbMovieTable movietable = new DbMovieTable(DbFactory);
         Movie = await movietable.ReadSingleRecord(MovieId);
 
-        // Set the form values to the movie duration values
-        MovieForm.Title = Movie.Title;
-        MovieForm.Format = Movie.Format;
-        MovieForm.DurationHours = Movie.Duration.Value.Hours;
-        MovieForm.DurationMinutes = Movie.Duration.Value.Minutes;
-        MovieForm.Release = Movie.Release.HasValue ? Movie.Release.Value : DateOnly.MinValue;
-        MovieForm.SelectedRating = Movie.Rating;
-        MovieForm.Poster = Movie.Poster;
-        MovieForm.Story = Movie.Story;
+        if (Movie != null)
+        {
+            MovieForm.Title = Movie.Title;
+            MovieForm.Format = Movie.Format;
+            MovieForm.DurationHours = Movie.Duration.Value.Hours;
+            MovieForm.DurationMinutes = Movie.Duration.Value.Minutes;
+            MovieForm.Release = Movie.Release.HasValue ? Movie.Release.Value : DateOnly.MinValue;
+            MovieForm.SelectedRating = Movie.Rating;
+            MovieForm.Poster = Movie.Poster;
+            MovieForm.Story = Movie.Story;
+        }
+        else
+        {
+            throw new FindArgumentNullException();
+        }
     }
 
     private void HandleCanceledSubmit()
@@ -150,6 +156,10 @@
         if (isSuccess)
         {
             NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+        }
+        else
+        {
+            throw new UpdateArgumentNullException();
         }
     }
 

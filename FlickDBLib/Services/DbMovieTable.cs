@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace FlickDBLib.Services
 {
     public class DbMovieTable : DbTable, IDbCreateRecord, IDbDeleteRecord, IDbUpdateRecord
@@ -19,24 +21,28 @@ namespace FlickDBLib.Services
             {
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                    {
-                        var movies = await db.Movies.Select(movie => new Movie
+                    try {
+                        if (db.Movies != null)
                         {
-                            Movieid = movie.Movieid,
-                            Title = movie.Title,
-                            Poster = movie.Poster,
-                            Duration = movie.Duration
-                        })
-                        .ToListAsync();
-                        db.Dispose();
+                            var movies = await db.Movies.Select(movie => new Movie
+                            {
+                                Movieid = movie.Movieid,
+                                Title = movie.Title,
+                                Poster = movie.Poster,
+                                Duration = movie.Duration
+                            })
+                            .ToListAsync();
+                            db.Dispose();
 
-                        return movies;
-                    }
-                    else
-                    {
-                        db.Dispose();
-                        return Enumerable.Empty<Movie>();
+                            return movies;
+                        }
+                        else
+                        {
+                            db.Dispose();
+                            return Enumerable.Empty<Movie>();
+                        }
+                    } catch (Exception) {
+                        throw new FindMovieNullException();
                     }
                 }
             }
@@ -54,24 +60,28 @@ namespace FlickDBLib.Services
                 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                    {
-                        var movie = await db.Movies.FindAsync(movieid);
-                        db.Dispose();
-
-                        if (movie != null)
+                    try {
+                        if (db.Movies != null)
                         {
-                            return movie;
+                            var movie = await db.Movies.FindAsync(movieid);
+                            db.Dispose();
+
+                            if (movie != null)
+                            {
+                                return movie;
+                            }
+                            else
+                            {
+                                return null;
+                            }
                         }
                         else
                         {
+                            db.Dispose();
                             return null;
                         }
-                    }
-                    else
-                    {
-                        db.Dispose();
-                        return null;
+                    } catch (Exception) {
+                        throw new FindMovieNullException();
                     }
                 }
             }
@@ -101,17 +111,21 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                    {
-                        db.Movies.Add(movie);
-                        int changes = await db.SaveChangesAsync();
-                        db.Dispose();
-                        return changes > 0;
-                    }
-                    else
-                    {
-                        db.Dispose();
-                        return false;
+                    try {
+                        if (db.Movies != null)
+                        {
+                            db.Movies.Add(movie);
+                            int changes = await db.SaveChangesAsync();
+                            db.Dispose();
+                            return changes > 0;
+                        }
+                        else
+                        {
+                            db.Dispose();
+                            return false;
+                        }
+                    } catch (Exception) {
+                        throw new CreateArgumentNullException();
                     }
                 }
             }
@@ -125,47 +139,51 @@ namespace FlickDBLib.Services
         {
             using (var db = _dbfactory.CreateDbContext())
             {
-                if (db.Movies != null)
-                {
-                    var movie = await db.Movies.FindAsync(movieid);
-
-                    if (movie != null)
+                try {
+                    if (db.Movies != null)
                     {
-                        DbActorTable actortable = new DbActorTable(_dbfactory);
-                        var actors = await actortable.ReadAllRecord(movieid);
+                        var movie = await db.Movies.FindAsync(movieid);
 
-                        foreach (var actor in actors)
+                        if (movie != null)
                         {
-                            await actortable.DeleteRecord(actor.Actorid);
+                            DbActorTable actortable = new DbActorTable(_dbfactory);
+                            var actors = await actortable.ReadAllRecord(movieid);
+
+                            foreach (var actor in actors)
+                            {
+                                await actortable.DeleteRecord(actor.Actorid);
+                            }
+
+                            DbCrewTable crewtable = new DbCrewTable(_dbfactory);
+                            var crews = await crewtable.ReadAllRecord(movieid);
+
+                            foreach (var crew in crews)
+                            {
+                                await crewtable.DeleteRecord(crew.Crewid);
+                            }
+
+                            //IGenreManager genreManager = new GenreService(_dbfactory);
+                            DbGenreTable genretable = new DbGenreTable(_dbfactory);
+                            var genres = await genretable.ReadAllRecord(movieid);
+
+                            foreach (var genre in genres)
+                            {
+                                await genretable.DeleteRecord(genre.Genreid);
+                            }
+
+                            db.Entry(movie).State = EntityState.Deleted;
+                            Success = await db.SaveChangesAsync();
+                            db.Dispose();
                         }
-
-                        DbCrewTable crewtable = new DbCrewTable(_dbfactory);
-                        var crews = await crewtable.ReadAllRecord(movieid);
-
-                        foreach (var crew in crews)
-                        {
-                            await crewtable.DeleteRecord(crew.Crewid);
-                        }
-
-                        //IGenreManager genreManager = new GenreService(_dbfactory);
-                        DbGenreTable genretable = new DbGenreTable(_dbfactory);
-                        var genres = await genretable.ReadAllRecord(movieid);
-
-                        foreach (var genre in genres)
-                        {
-                            await genretable.DeleteRecord(genre.Genreid);
-                        }
-
-                        db.Entry(movie).State = EntityState.Deleted;
-                        Success = await db.SaveChangesAsync();
-                        db.Dispose();
+                        return Success > 0;
                     }
-                    return Success > 0;
-                }
-                else
-                {
-                    db.Dispose();
-                    return false;
+                    else
+                    {
+                        db.Dispose();
+                        return false;
+                    }
+                } catch (Exception) {
+                    throw new DeleteArgumentNullException();
                 }
             }
         }
@@ -179,36 +197,40 @@ namespace FlickDBLib.Services
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
-                    if (db.Movies != null)
-                    {
-                        var movie = await db.Movies.FindAsync(movieid);
-
-                        if (movie != null)
+                    try {
+                        if (db.Movies != null)
                         {
-                            movie.Title = movieform.Title;
-                            movie.Format = movieform.Format;
-                            movie.Duration = movieform.Duration;
-                            movie.Release = movieform.Release;
-                            movie.Rating = movieform.GetRatingDescription();
-                            movie.Symbol = movieform.GetRatingSymbol();
-                            movie.Poster = movieform.Poster;
-                            movie.Story = movieform.Story;
+                            var movie = await db.Movies.FindAsync(movieid);
 
-                            db.Entry(movie).State = EntityState.Modified;
-                            int changes = await db.SaveChangesAsync();
-                            db.Dispose();
-                            return changes > 0;
+                            if (movie != null)
+                            {
+                                movie.Title = movieform.Title;
+                                movie.Format = movieform.Format;
+                                movie.Duration = movieform.Duration;
+                                movie.Release = movieform.Release;
+                                movie.Rating = movieform.GetRatingDescription();
+                                movie.Symbol = movieform.GetRatingSymbol();
+                                movie.Poster = movieform.Poster;
+                                movie.Story = movieform.Story;
+
+                                db.Entry(movie).State = EntityState.Modified;
+                                int changes = await db.SaveChangesAsync();
+                                db.Dispose();
+                                return changes > 0;
+                            }
+                            else
+                            {
+                                db.Dispose();
+                                return false;
+                            }
                         }
                         else
                         {
                             db.Dispose();
                             return false;
                         }
-                    }
-                    else
-                    {
-                        db.Dispose();
-                        return false;
+                    } catch (Exception) {
+                        throw new UpdateArgumentNullException();
                     }
                 }
             }

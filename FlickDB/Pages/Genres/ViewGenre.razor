@@ -50,5 +50,10 @@ else
     {
         DbGenreTable genretable = new DbGenreTable(DbFactory);
         Genres = (await genretable.ReadAllRecord(MovieId)).ToList();
+
+        if (Genres == null)
+        {
+            throw new FindArgumentNullException();
+        }
     }
 }

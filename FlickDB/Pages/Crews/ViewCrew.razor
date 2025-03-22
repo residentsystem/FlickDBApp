@@ -51,5 +51,10 @@ else
     {
         DbCrewTable crewtable = new DbCrewTable(DbFactory);
         Crews = (await crewtable.ReadAllRecord(MovieId)).ToList();
+
+        if (Crews == null)
+        {
+          throw new FindArgumentNullException();
+        }
     }
 }

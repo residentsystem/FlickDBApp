@@ -54,5 +54,10 @@ else
     {
         DbActorTable actortable = new DbActorTable(DbFactory);
         Actors = (await actortable.ReadAllRecord(MovieId)).ToList();
+
+        if (Actors == null)
+        {
+          throw new FindArgumentNullException();
+        }
     }
 }

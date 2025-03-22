@@ -58,6 +58,10 @@
       {
           NavManager.NavigateTo("/");
       }
+      else
+      {
+          throw new DeleteArgumentNullException();
+      }
     }
     private void NewActor()
     {

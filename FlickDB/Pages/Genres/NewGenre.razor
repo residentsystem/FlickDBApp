@@ -83,6 +83,10 @@
         {
             NavManager.NavigateTo($"/EditMovie/{MovieId}");
         }
+        else
+        {
+            throw new CreateArgumentNullException();
+        }
     }
     
     private void HandleInvalidSubmit()

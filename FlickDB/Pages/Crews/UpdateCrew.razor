@@ -102,6 +102,10 @@
             CrewForm.Picture = Crew?.Picture ?? string.Empty;
             CrewForm.Position = Crew?.Position ?? string.Empty;
         }
+        else
+        {
+            throw new FindArgumentNullException();
+        }
     }
 
     private void HandleCanceledSubmit()
@@ -118,6 +122,10 @@
         if (isSuccess)
         {
             NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+        }
+        else
+        {
+            throw new UpdateArgumentNullException();
         }
     }
 

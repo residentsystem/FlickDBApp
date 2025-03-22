@@ -1,0 +1,60 @@
+﻿@page
+@model FlickDB.Pages.Error.Production.ErrorModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Error</title>
+    <link href="~/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="main">
+        <div class="container error">
+            <section class="row col-sm-12">
+                <article class="col-sm-12 col-md-12 col-lg-8 col-center">
+                    <div class="box-error-title">
+                        <h1>Error.</h1>
+                        <h2>An error occurred while processing your request.</h2>
+                    </div>
+                    <div class="box-error-image">
+                        <figure>
+                            <img class="img-fluid" src="~/images/error/overworked.png" alt="Resident System web design company" />
+                        </figure>
+                    </div>
+                    <hr />
+                    <div class="box-error-message">
+
+                        @if (Model.ShowExceptionMessage)
+                        {
+                            <h3>Exception Message:</h3>
+                            <p>@Model.ExceptionMessage</p>
+                        }
+
+                        @if (Model.ShowMySqlExeptionMessage)
+                        {
+                            <h3>Exception Message:</h3>
+                            <p>@Model.MySqlExeptionMessage</p>
+                        }
+
+                    </div>
+                    <hr />
+                    <div class="box-error-contact">
+                        <h3>Contact us</h3>
+                        <p>Need help? Please send us an email if the issue persist.</p>
+                        <a class="btn btn-dark" href="mailto:service@residentsystem.com" title="Contact us" role="button">Send email</a>
+                        <a class="btn btn-dark" href="/" title="Cancel" role="button">Cancel</a>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script src="~/js/error.js"></script>
