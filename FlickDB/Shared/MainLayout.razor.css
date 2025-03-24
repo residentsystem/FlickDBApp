@@ -26,6 +26,41 @@ h1, h2, h3, h4, h5, h6 {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
+/* -------------------------------------------- Error -------------------------------------------- */
+
+.box-error-title, .box-error-message, .box-error-contact {
+    color: #276783;
+    font-size: 1em; 
+    font-weight: bold;
+    height: auto; 
+    margin-top: 0.8em;
+    padding: 0.5em;
+    position: relative;
+}
+
+.box-error-title h1 {
+    font-size: 2em;
+}
+
+.box-error-image figure img {
+    display: block;
+    text-align: left;
+    height: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+}
+
+.box-error-message h3, .box-error-message p {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+}
+
+.error hr {
+    border: 1px solid #276783;
+}
+
 /* -------------------------------------------- Media -------------------------------------------- */
 
 @media (min-width: 641px) {

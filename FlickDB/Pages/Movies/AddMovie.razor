@@ -102,7 +102,7 @@
 
     private void HandleCanceledSubmit()
     {
-        NavManager.NavigateTo("/");
+        NavManager.NavigateTo("/poster");
     }
     
     private async Task HandleValidSubmit()
@@ -113,7 +113,7 @@
         bool isSuccess = await miovietable.CreateRecord(MovieForm);
         if (isSuccess)
         {
-            NavManager.NavigateTo("/");
+            NavManager.NavigateTo("/poster");
         }
         else
         {

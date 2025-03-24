@@ -43,11 +43,16 @@
                                     <h2>An error occurred while processing your request.</h2>
                                 </div>
                                 <hr />
+                                <div class="box-error-image">
+                                    <figure>
+                                        <img class="img-fluid" src="/images/error/overworked.png" alt="Resident System web design company" />
+                                    </figure>
+                                </div>
                                 <div class="box-error-message">
                                     An error occurred: @ex.Message
                                 </div>
                                 <hr />
-                                <div class="box-error-contact">
+                                <div class="box-error-message">
                                     <h3>Contact us</h3>
                                     <p>Need help? Please send us an email if the issue persist.</p>
                                     <button class="btn btn-dark" @onclick="_ => RecoverBoundary()">Continue</button>
@@ -67,6 +72,6 @@
     protected void RecoverBoundary()
     {
         FlickDBErrorBoundary?.Recover();
-        Navigation.NavigateTo("/");
+        Navigation.NavigateTo("/poster");
     }
 }
