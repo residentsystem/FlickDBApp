@@ -10,8 +10,15 @@ main {
     flex: 1;
 }
 
-.sidebar {
+.sidebar-old {
     background-image: linear-gradient(180deg, rgb(0, 0, 0) 0%, #3a0647 70%);
+}
+
+.sidebar {
+    background-color: #172533;
+    background-image: url("../images/background/navmenu.jpg");
+    background-repeat: repeat;
+    border: 1px solid #333;
 }
 
 .blog-header-logo {
@@ -21,10 +28,6 @@ main {
   .blog-header-logo:hover {
     text-decoration: none;
   }
-  
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-}
 
 /* -------------------------------------------- Error -------------------------------------------- */
 

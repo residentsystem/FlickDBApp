@@ -1,17 +1,21 @@
-@page "/viewgenre"
+@page "/editgenre"
 
 @inject IDbContextFactory<MovieContext> DbFactory
 
 @if (Genres != null && Genres.Count > 0)
 {
-  <div class="d-flex gap-2 w-100 justify-content-between">
-    <ul class="list-group list-group-horizontal">
-      @foreach (var genre in Genres) 
-      {
-        <button type="button" class="list-group-item ms-1 rounded-pill border border-secondary-subtle">@genre.Genre1</button>
-      }
-    </ul>
-  </div>
+  @foreach (var genre in Genres) 
+  {
+    <div class="d-flex w-100 justify-content-between">
+      <ul class="list-group list-group-flush w-100 border border-secondary-subtle rounded-3">
+        <li class="list-group-item border-0 fw-bold">@genre.Genre1</li>
+          @if (@Mode == "Edit")
+          {
+            <li class="list-group-item border-0"><ManageGenre MovieId="@MovieId" GenreId="@genre.Genreid" /></li>
+          }
+      </ul>
+    </div>
+  }
 }
 else
 {
@@ -24,6 +28,11 @@ else
 {
     [Parameter]
     public int MovieId { get; set; }
+
+    [Parameter]
+    public string? Mode { get; set; }
+
+    public Movie? MovieGenre { get; set; }
 
     public List<Genre> Genres { get; set; } = new List<Genre>();
 

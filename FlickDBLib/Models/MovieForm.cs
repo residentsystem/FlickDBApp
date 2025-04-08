@@ -2,24 +2,21 @@ using System.Reflection.Metadata.Ecma335;
 
 public class MovieForm
 {
-    [Required (ErrorMessage = "Movie title is required")]
+    [Required (ErrorMessage = "The Title field is required.")]
     public string Title { get; set; } = string.Empty;
 
-    [Required (ErrorMessage = "Movie format is required")]
+    [Required (ErrorMessage = "The Format field is required.")]
     public string Format { get; set; } = string.Empty;
 
-    [Required (ErrorMessage = "Duration in hour(s) is required")]
     public int DurationHours { get; set; }
 
-    [Required (ErrorMessage = "Duration in minute(s) is required")]
     public int DurationMinutes { get; set; }
 
     public TimeSpan Duration => new TimeSpan(DurationHours, DurationMinutes, 0);
 
-    [Required (ErrorMessage = "Movie release date is required")]
     public DateOnly Release { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
-    [Required (ErrorMessage = "Movie rating is required")]
+    [Required (ErrorMessage = "The Rating field is required.")]
     public string SelectedRating { get; set; } = string.Empty;
 
     public string Rating { get; set; } = string.Empty;
@@ -28,7 +25,7 @@ public class MovieForm
 
     public string Poster { get; set; } = string.Empty;
 
-    [Required (ErrorMessage = "Movie story is required")]
+    [Required (ErrorMessage = "The Story field is required.")]
     public string Story { get; set; } = string.Empty;
 
     public string GetRatingDescription() 

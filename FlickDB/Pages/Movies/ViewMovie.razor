@@ -12,67 +12,70 @@
   <NavGenre />
 
   <div class="container my-5">
-    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-sm">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow-sm box-movie">
       <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
         <h1 class="display-4 fw-bold lh-1 text-body-emphasis">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
-          <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
-        </svg>
-        @Movie.Title</h1>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+            <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+          </svg>
+          @Movie.Title
+        </h1>
+        <hr />
+          <ViewGenre MovieId="@MovieId" />
+        <hr />
         <p class="lead">@Movie.Story</p>
         <div class="container">
           <div class="row">
-            <div class="col-md-6">
-              <div class="list-group d-flex flex-column p-3 gap-3 py-md-5">
-                <a href="#" class="list-group-item list-group-item-action">Properties</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-primary d-flex gap-3 py-3" aria-current="true">
-                  <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+            <div class="col-md-10">
+              <div class="d-flex flex-column p-3 gap-3 py-md-5">
                   <div class="d-flex gap-2 w-100 justify-content-between">
-                    <div>
-                      <h6 class="mb-0">Media format</h6>
-                      <p class="mb-0 opacity-75">@Movie.Format</p>
-                    </div>
+                    <ul class="list-group list-group-horizontal border border-secondary-subtle">
+                      <li class="list-group-item border-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-badge-hd-fill" viewBox="0 0 16 16">
+                          <path d="M10.53 5.968h-.843v4.06h.843c1.117 0 1.622-.667 1.622-2.02 0-1.354-.51-2.04-1.622-2.04"/>
+                          <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm5.396 3.001V11H6.209V8.43H3.687V11H2.5V5.001h1.187v2.44h2.522V5h1.187zM8.5 11V5.001h2.188c1.824 0 2.685 1.09 2.685 2.984C13.373 9.893 12.5 11 10.69 11z"/>
+                        </svg>
+                      </li>
+                      <li class="list-group-item border-0">Media format:</li>
+                      <li class="list-group-item border-0 fw-bold">@Movie.Format</li>
+                    </ul>
                   </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-primary d-flex gap-3 py-3" aria-current="true">
-                  <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
                   <div class="d-flex gap-2 w-100 justify-content-between">
-                    <div>
-                      <h6 class="mb-0">Duration</h6>
-                      <p class="mb-0 opacity-75">@Movie.Duration</p>
-                    </div>
+                    <ul class="list-group list-group-horizontal border border-secondary-subtle">
+                      <li class="list-group-item border-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                        </svg>
+                      </li>
+                      <li class="list-group-item border-0">Duration:</li>
+                      <li class="list-group-item border-0 fw-bold">@Movie.Duration</li>
+                    </ul>
                   </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-primary d-flex gap-3 py-3" aria-current="true">
-                  <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
                   <div class="d-flex gap-2 w-100 justify-content-between">
-                    <div>
-                      <h6 class="mb-0">Release date</h6>
-                      <p class="mb-0 opacity-75">@Movie.Release</p>
-                    </div>
+                    <ul class="list-group list-group-horizontal border border-secondary-subtle">
+                      <li class="list-group-item border-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar-event-fill" viewBox="0 0 16 16">
+                          <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/>
+                        </svg>
+                      </li>
+                      <li class="list-group-item border-0">Release date:</li>
+                      <li class="list-group-item border-0 fw-bold">@Movie.Release</li>
+                    </ul>
                   </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-primary d-flex gap-3 py-3" aria-current="true">
-                  <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
                   <div class="d-flex gap-2 w-100 justify-content-between">
-                    <div>
-                      <h6 class="mb-0">Rating</h6>
-                      <p class="mb-0 opacity-75">@Movie.Rating</p>
-                    </div>
+                    <ul class="list-group list-group-horizontal border border-secondary-subtle">
+                      <li class="list-group-item border-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                          <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                        </svg>
+                      </li>
+                      <li class="list-group-item border-0">Rating:</li>
+                      <li class="list-group-item border-0 fw-bold">@Movie.Rating</li>
+                    </ul>
                   </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-primary d-flex gap-3 py-3" aria-current="true">
                   <div class="d-flex gap-2 w-100 justify-content-between">
-                    <div>
-                      <img class="symbol" src="/images/symbol/@Movie.Symbol" alt="@Movie.Rating" />
-                    </div>
+                    <img class="symbol" src="/images/symbol/@Movie.Symbol" alt="@Movie.Rating" />
                   </div>
-                </a>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="list-group d-flex flex-column p-3 gap-3 py-md-5">
-                <ViewGenre MovieId="@MovieId" />
               </div>
             </div>
           </div>
@@ -87,7 +90,8 @@
   // -------------------------------------------- Actors --------------------------------------------
 
   <div class="container my-5">
-    <h2>Actors</h2>
+    <h2>Cast</h2>
+    <hr />
     <div class="row mb-2">
       <ViewActor MovieId="@MovieId" />
     </div>
@@ -96,7 +100,8 @@
   // -------------------------------------------- Crews --------------------------------------------
 
   <div class="container my-5">
-    <h2>Crews</h2>
+    <h2>Crew</h2>
+    <hr />
     <div class="row mb-2">
       <ViewCrew MovieId="@MovieId" />
     </div>

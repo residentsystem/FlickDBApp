@@ -7,16 +7,16 @@
 @using FlickDB.Services;
 
 <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
-    <h4 class="fw-bold lh-1 text-body-emphasis">Update Genre</h4>
-    <p class="lead">Update a Genre</p>
+    <h2 class="fw-bold lh-1 text-body-emphasis">Update genre</h2>
+    <p class="lead">Please modify the category information below.</p>
 </div>
     <form>
         <EditForm Model="@GenreForm" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
             <DataAnnotationsValidator />
 
             <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
-            <label for="genre" class="form-label">Genre</label>
-                <InputSelect id="genre" class="form-control" aria-label="genre" @bind-Value=GenreForm.Genre1 placeholder="Genre name" >
+                <label for="genre" class="form-label">Genre</label>
+                <InputSelect id="genre" class="form-control" aria-label="genre" @bind-Value=GenreForm.Genre1 placeholder="Genre" >
                     <option value="@Genre?.Genre1">@Genre?.Genre1</option>
                     <option value="Action">Action</option>
                     <option value="Adventure">Adventure</option>
@@ -37,12 +37,11 @@
                     <option value="War">War</option>
                     <option value="Western">Western</option>
                 </InputSelect>
-                <ValidationMessage For="() => GenreForm.Genre1" />
             </div>
 
             <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
-                <input type="submit" class="btn btn-primary btn-sm" value="Submit" />
-                <input type="button" class="btn btn-primary btn-sm" @onclick="HandleCanceledSubmit" value="Cancel" />
+                <input type="submit" class="btn btn-dark btn-sm" value="Submit" />
+                <input type="button" class="btn btn-dark btn-sm" @onclick="HandleCanceledSubmit" value="Cancel" />
             </div>
         </EditForm>
     </form>

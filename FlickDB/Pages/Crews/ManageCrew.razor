@@ -6,22 +6,22 @@
   <div class="container my-5">
     <div class="row p-2 pb-2 pe-lg-2 pt-lg-2 align-items-center rounded-3 border shadow-sm">
       <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
-        <button type="button" class="btn btn-primary btn-md px-4 me-md-2 fw-bold" @onclick="ToggleDeleteVisibility" disabled="@isDeleteButtonDisabled">Delete</button>
-        <button type="button" class="btn btn-primary btn-md px-4 me-md-2 fw-bold" @onclick="ToggleUpdateVisibility" disabled="@isUpdateButtonDisabled">Update</button>
+        <button type="button" class="btn btn-dark px-4 me-md-2" @onclick="ToggleDeleteVisibility" disabled="@isDeleteButtonDisabled">Delete</button>
+        <button type="button" class="btn btn-dark px-4 me-md-2" @onclick="ToggleUpdateVisibility" disabled="@isUpdateButtonDisabled">Update</button>
       </div>
       @if (isDeleteAlertVisible)
       {
         <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
           <div class="alert alert-danger" role="alert">
             <h4 class="alert-heading">Are you sure?</h4>
-            <p>Do you really want to delete this crew? This process cannot be undone.</p>
-            <hr>
-            <p class="mb-0">Please note that deleting a crew will also delete all infromation associated with it.</p>
+            <hr />
+            <p>Do you really want to delete this crew? This process cannot be undone. Please note that deleting a crew will also delete all infromation 
+            associated with it.</p>
           </div>
         </div>
         <div class="col-lg-7 p-2 p-lg-2 pt-lg-2">
-          <button type="button" class="btn btn-primary btn-md px-4 me-md-2 fw-bold" @onclick="DeleteCrew">Yes</button>
-          <button type="button" class="btn btn-primary btn-md px-4 me-md-2 fw-bold" @onclick="ToggleDeleteVisibility">No</button>
+          <button type="button" class="btn btn-dark px-4 me-md-2" @onclick="DeleteCrew">Yes</button>
+          <button type="button" class="btn btn-dark px-4 me-md-2" @onclick="ToggleDeleteVisibility">No</button>
         </div>
       }
 

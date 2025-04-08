@@ -6,19 +6,18 @@
 
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">     
             @if (Posters.Count() == 0)
             {
                 if (Genre == null)
                 {
-                  <p>No movie found. Please <a href="/newmovie">create</a> a movie.</p>
+                  <p>No movie found. Please <a href="/addmovie">create</a> a movie.</p>
                 }
                 else 
                 {
                   <ul>
                     <li><p>No movie found in category <b>@Genre</b>.</p></li>
-                    <li><a class="btn btn-dark" href="/poster">Back</a></li>
+                    <li><a class="btn btn-dark px-4 me-md-2" href="/poster">Back</a></li>
                   </ul>
                 }
             }
@@ -29,7 +28,6 @@
                 <ViewPoster Poster=poster />
               }
             }
-            
         </div>
     </div>
 </div>
