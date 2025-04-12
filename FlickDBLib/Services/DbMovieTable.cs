@@ -28,8 +28,13 @@ namespace FlickDBLib.Services
                             {
                                 Movieid = movie.Movieid,
                                 Title = movie.Title,
+                                Format = movie.Format,
+                                Duration = movie.Duration,
+                                Release = movie.Release,
+                                Rating = movie.Rating,
+                                Symbol = movie.Symbol,
                                 Poster = movie.Poster,
-                                Duration = movie.Duration
+                                Story = movie.Story
                             })
                             .ToListAsync();
                             db.Dispose();
@@ -108,6 +113,20 @@ namespace FlickDBLib.Services
                     Poster = movieform.GetPosterFileName(movieform.Title),
                     Story = movieform.Story
                 };
+
+                // Read all movies from the database
+                IEnumerable<Movie> movies = await ReadAllRecord();
+
+                // Check if the movie already exists in the database
+                var existingMovie = movies.FirstOrDefault(m => 
+                    m.Title == movie.Title &&
+                    m.Release == movie.Release);
+
+                if (existingMovie != null)
+                {
+                    // Movie already exists, return false or handle as needed
+                    throw new CreateExistArgumentNullException();
+                }
 
                 using (var db = _dbfactory.CreateDbContext())
                 {
@@ -195,6 +214,23 @@ namespace FlickDBLib.Services
                 MovieForm movieform = (MovieForm)args[0];
                 int movieid = (int)args[1];
 
+                // Read all movies from the database
+                IEnumerable<Movie> movies = await ReadAllRecord();
+
+                // Exclude the current movie from the list
+                movies = movies.Where(m => m.Movieid != movieid).ToList();
+
+                // Check if the movie already exists in the database
+                var existingMovie = movies.FirstOrDefault(m => 
+                    m.Title == movieform.Title &&
+                    m.Release == movieform.Release);
+
+                if (existingMovie != null)
+                {
+                    // Movie already exists, return false or handle as needed
+                    throw new UpdateExistArgumentNullException();
+                }
+
                 using (var db = _dbfactory.CreateDbContext())
                 {
                     try {
@@ -229,7 +265,8 @@ namespace FlickDBLib.Services
                             db.Dispose();
                             return false;
                         }
-                    } catch (Exception) {
+                    }
+                    catch (Exception) {
                         throw new UpdateArgumentNullException();
                     }
                 }

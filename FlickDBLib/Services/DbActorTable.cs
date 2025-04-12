@@ -90,6 +90,23 @@ namespace FlickDBLib.Services
                     Picture = actorform.GetPictureFileName(actorform.Firstname, actorform.Lastname)
                 };
 
+                // Read all actors from the database for the given movie
+                IEnumerable<Actor> actors = await ReadAllRecord(movieid);
+
+                // Check if the actor already exists in the database
+                // Note: This check is done against the list of crews for the movie, not the entire database
+                var existingActor = actors.FirstOrDefault(a => 
+                    a.Firstname == actor.Firstname && 
+                    a.Lastname == actor.Lastname &&
+                    a.Birth == actor.Birth &&
+                    a.Moviesactors.Any(ma => ma.Character == actorform.Character));
+
+                if (existingActor != null)
+                {
+                    // Actor already exists, return false or handle as needed
+                    throw new CreateExistArgumentNullException();
+                }
+
                 using (var db = _dbfactory.CreateDbContext())
                 {
                     try {
@@ -160,44 +177,67 @@ namespace FlickDBLib.Services
                 ActorForm actorform = (ActorForm)args[0];
                 int actorid = (int)args[1];
 
-                using (var db = _dbfactory.CreateDbContext())
+                var db = _dbfactory.CreateDbContext();
+                var currentactor = await db.Actors.Include(a => a.Moviesactors).FirstOrDefaultAsync(a => a.Actorid == actorid);
+
+                int movieid = currentactor.Moviesactors.FirstOrDefault().Movieid;
+
+                // Read all actors from the database for the given movie
+                IEnumerable<Actor> actors = await ReadAllRecord(movieid);
+
+                // Exclude the current actor from the list
+                actors = actors.Where(a => a.Actorid != actorid).ToList();
+
+                // Check if the actor already exists in the database
+                // Note: This check is done against the list of crews for the movie, not the entire database
+                var existingActor = actors.FirstOrDefault(a => 
+                    a.Firstname == actorform.Firstname &&
+                    a.Lastname == actorform.Lastname &&
+                    a.Birth == actorform.Birth &&
+                    a.Moviesactors.Any(ma => ma.Character == actorform.Character));
+
+                if (existingActor != null)
                 {
-                    try {
-                        if (db.Actors != null && db.Moviesactors != null)
+                    // Actor already exists, return false or handle as needed
+                    throw new UpdateExistArgumentNullException();
+                }
+                
+                try {
+                    if (db.Actors != null && db.Moviesactors != null)
+                    {
+                        var actor = await db.Actors.FindAsync(actorid);
+                        var movieactor = await db.Moviesactors.FirstOrDefaultAsync(ma => ma.Actorid == actorid);
+
+                        if (actor != null && movieactor != null)
                         {
-                            var actor = await db.Actors.FindAsync(actorid);
-                            var movieactor = await db.Moviesactors.FirstOrDefaultAsync(ma => ma.Actorid == actorid);
+                            actor.Firstname = actorform.Firstname;
+                            actor.Lastname = actorform.Lastname;
+                            actor.Birth = actorform.Birth;
+                            actor.Biography = actorform.Biography;
+                            actor.Picture = actorform.Picture;
+                            movieactor.Character = actorform.Character;
 
-                            if (actor != null && movieactor != null)
-                            {
-                                actor.Firstname = actorform.Firstname;
-                                actor.Lastname = actorform.Lastname;
-                                actor.Birth = actorform.Birth;
-                                actor.Biography = actorform.Biography;
-                                actor.Picture = actorform.Picture;
-                                movieactor.Character = actorform.Character;
-
-                                db.Entry(actor).State = EntityState.Modified;
-                                db.Entry(movieactor).State = EntityState.Modified;
-                                int changes = await db.SaveChangesAsync();
-                            
-                                db.Dispose();
-                                return changes > 0;
-                            }
-                            else
-                            {
-                                db.Dispose();
-                                return false;
-                            }
+                            db.Entry(actor).State = EntityState.Modified;
+                            db.Entry(movieactor).State = EntityState.Modified;
+                            int changes = await db.SaveChangesAsync();
+                        
+                            db.Dispose();
+                            return changes > 0;
                         }
                         else
                         {
                             db.Dispose();
                             return false;
                         }
-                    } catch (Exception) {
-                        throw new UpdateArgumentNullException();
                     }
+                    else
+                    {
+                        db.Dispose();
+                        return false;
+                    }
+                } 
+                catch (Exception) {
+                    throw new UpdateArgumentNullException();
                 }
             }
             else

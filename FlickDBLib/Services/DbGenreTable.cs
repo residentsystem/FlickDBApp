@@ -88,6 +88,20 @@ namespace FlickDBLib.Services
                     Genre1 = genreform.Genre1
                 };
 
+                // Read all genres from the database for the given movie
+                IEnumerable<Genre> genres = await ReadAllRecord(movieid);
+
+                // Check if genre already exists in the database
+                // Note: This check is done against the list of genres for the movie, not the entire database
+                var existingGenre = genres.FirstOrDefault(g => 
+                    g.Genre1 == genreform.Genre1);
+
+                if (existingGenre != null)
+                {
+                    // Genre already exists, return false or handle as needed
+                    throw new CreateArgumentNullException("Genre already exists.");
+                }
+
                 using (var db = _dbfactory.CreateDbContext())
                 {
                     try {
@@ -158,9 +172,26 @@ namespace FlickDBLib.Services
                 GenreForm genreform = (GenreForm)args[0];
                 int genreid = (int)args[1];
 
-                using (var db = _dbfactory.CreateDbContext())
+                var db = _dbfactory.CreateDbContext();
+                var currentgenre = await db.Genres.Include(g => g.Moviesgenres).FirstOrDefaultAsync(g => g.Genreid == genreid);
+
+                int movieid = currentgenre.Moviesgenres.FirstOrDefault().Movieid;
+
+                // Read all genres from the database for the given movie
+                IEnumerable<Genre> genres = await ReadAllRecord(movieid);
+
+                // Check if genre already exists in the database
+                // Note: This check is done against the list of genres for the movie, not the entire database
+                var existingGenre = genres.FirstOrDefault(g => 
+                    g.Genre1 == genreform.Genre1);
+
+                if (existingGenre != null)
                 {
-                    try {
+                    // Genre already exists, return false or handle as needed
+                    throw new CreateArgumentNullException("Genre already exists.");
+                }
+
+                try {
                     if (db.Genres != null && db.Moviesgenres != null)
                     {
                         var genre = await db.Genres.FindAsync(genreid);
@@ -187,9 +218,9 @@ namespace FlickDBLib.Services
                         db.Dispose();
                         return false;
                     }
-                    } catch (Exception) {
-                        throw new UpdateArgumentNullException();
-                    }
+                } 
+                catch (Exception) {
+                    throw new UpdateArgumentNullException();
                 }
             }
             else

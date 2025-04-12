@@ -93,6 +93,23 @@ namespace FlickDBLib.Services
                     Position = crewform.Position
                 };
 
+                // Read all crews from the database for the given movie
+                IEnumerable<Crew> crews = await ReadAllRecord(movieid);
+
+                // Check if crew already exists in the database
+                // Note: This check is done against the list of crews for the movie, not the entire database
+                var existingCrew = crews.FirstOrDefault(c => 
+                    c.Firstname == crew.Firstname && 
+                    c.Lastname == crew.Lastname &&
+                    c.Birth == crew.Birth && 
+                    c.Position == crew.Position);
+
+                if (existingCrew != null)
+                {
+                    // Crew already exists, return false or handle as needed
+                    throw new CreateExistArgumentNullException();
+                }
+
                 using (var db = _dbfactory.CreateDbContext())
                 {
                     try {
@@ -163,43 +180,66 @@ namespace FlickDBLib.Services
                 CrewForm crewform = (CrewForm)args[0];
                 int crewid = (int)args[1];
 
-                using (var db = _dbfactory.CreateDbContext())
+                var db = _dbfactory.CreateDbContext();
+                var currentcrew = await db.Crews.Include(c => c.Moviescrews).FirstOrDefaultAsync(c => c.Crewid == crewid);
+
+                int movieid = currentcrew.Moviescrews.FirstOrDefault().Movieid;
+
+                // Read all crews from the database for the given movie
+                IEnumerable<Crew> crews = await ReadAllRecord(movieid);
+
+                // Exclude the current crew from the list
+                crews = crews.Where(c => c.Crewid != crewid).ToList();
+
+                // Check if crew already exists in the database
+                // Note: This check is done against the list of crews for the movie, not the entire database
+                var existingCrew = crews.FirstOrDefault(c => 
+                    c.Firstname == crewform.Firstname && 
+                    c.Lastname == crewform.Lastname &&
+                    c.Birth == crewform.Birth &&
+                    c.Position == crewform.Position);
+
+                if (existingCrew != null)
                 {
-                    try {
-                        if (db.Crews != null && db.Moviescrews != null)
+                    // Crew already exists, return false or handle as needed
+                    throw new UpdateExistArgumentNullException();
+                }
+
+                try {
+                    if (db.Crews != null && db.Moviescrews != null)
+                    {
+                        var crew = await db.Crews.FindAsync(crewid);
+                        var moviecrew = await db.Moviescrews.FirstOrDefaultAsync(mc => mc.Crewid == crewid);
+
+                        if (crew != null && moviecrew != null)
                         {
-                            var crew = await db.Crews.FindAsync(crewid);
-                            var moviecrew = await db.Moviescrews.FirstOrDefaultAsync(mc => mc.Crewid == crewid);
+                            crew.Firstname = crewform.Firstname;
+                            crew.Lastname = crewform.Lastname;
+                            crew.Birth = crewform.Birth;
+                            crew.Biography = crewform.Biography;
+                            crew.Picture = crewform.Picture;
+                            crew.Position = crewform.Position;
 
-                            if (crew != null && moviecrew != null)
-                            {
-                                crew.Firstname = crewform.Firstname;
-                                crew.Lastname = crewform.Lastname;
-                                crew.Birth = crewform.Birth;
-                                crew.Biography = crewform.Biography;
-                                crew.Picture = crewform.Picture;
-                                crew.Position = crewform.Position;
-
-                                db.Entry(crew).State = EntityState.Modified;
-                                int changes = await db.SaveChangesAsync();
-                                
-                                db.Dispose();
-                                return changes > 0;
-                            }
-                            else
-                            {
-                                db.Dispose();
-                                return false;
-                            }
+                            db.Entry(crew).State = EntityState.Modified;
+                            int changes = await db.SaveChangesAsync();
+                            
+                            db.Dispose();
+                            return changes > 0;
                         }
                         else
                         {
                             db.Dispose();
                             return false;
                         }
-                    } catch (Exception) {
-                        throw new UpdateArgumentNullException();
                     }
+                    else
+                    {
+                        db.Dispose();
+                        return false;
+                    }
+                } 
+                catch (Exception) {
+                    throw new UpdateArgumentNullException();
                 }
             }
             else

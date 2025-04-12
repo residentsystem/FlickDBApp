@@ -32,6 +32,14 @@ namespace FlickDBLib.Services
         }
     }
 
+    public class CreateExistArgumentNullException : ArgumentNullException
+    {
+        public CreateExistArgumentNullException (string message = "Could not CREATE this item. Our records show the item already EXIST.") : base (message)
+        {
+
+        }
+    }
+
     public class CreateInvalidOperationException : InvalidOperationException
     {
         public CreateInvalidOperationException (string message = "Could not CREATE this item. Verify that the item still exist and try again.") : base (message)
@@ -75,6 +83,14 @@ namespace FlickDBLib.Services
     public class UpdateArgumentNullException : ArgumentNullException
     {
         public UpdateArgumentNullException (string message = "Could not UPDATE this item. Verify that the item still exist and try again.") : base (message)
+        {
+
+        }
+    }
+
+    public class UpdateExistArgumentNullException : ArgumentNullException
+    {
+        public UpdateExistArgumentNullException (string message = "Could not UPDATE this item. Our records show the item already EXIST.") : base (message)
         {
 
         }
