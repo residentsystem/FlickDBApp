@@ -4,7 +4,17 @@
 
 @using FlickDB.Pages.Posters;
 
-<div class="album py-5 bg-body-tertiary">
+<div class="album bg-body-tertiary py-5">
+    <div class="container">
+      <div class="px-2 py-2 my-2 text-center shadow-sm border rounded-3">
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <h2 class="display-7 fw-bold text-body-emphasis">Movie Collection</h2>
+        </div>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <p class="fw-bold text-body-emphasis">Category - @Category (@Posters.Count())</p>
+        </div>
+      </div>
+    </div>
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">     
             @if (Posters.Count() == 0)
@@ -23,12 +33,35 @@
             }
             else
             {
-              @foreach (var poster in Posters)
+              @foreach (var poster in PagedPosters)
               {
                 <ViewPoster Poster=poster />
               }
             }
         </div>
+    </div>
+    <div class="container">
+      <div class="px-2 py-2 my-3 text-center border-top rounded-3">
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <!-- Previous Page Button -->
+          @if (CurrentPage > 1)
+          {
+            <a type="button" class="btn btn-dark btn-sm px-4 gap-3 shadow-sm" @onclick="() => ChangePage(CurrentPage - 1)">Previous</a>
+          }
+
+          <!-- Page Number Buttons -->
+          @foreach (var pageNumber in Enumerable.Range(1, TotalPage))
+          {
+            <a type="button" class="btn btn-dark btn-sm px-4 gap-3 shadow-sm" @onclick="() => TargetPage(pageNumber)">@pageNumber</a>
+          }
+
+          <!-- Next Page Button -->
+          @if (CurrentPage < TotalPage)
+          {
+            <a type="button" class="btn btn-dark btn-sm px-4 gap-3 shadow-sm" @onclick="() => ChangePage(CurrentPage + 1)">Next</a>
+          }
+        </div>
+      </div>
     </div>
 </div>
 
@@ -37,7 +70,17 @@
   [Parameter]
   public string? Genre { get; set; }
 
+  public string? Category { get; set; }
+
   public IEnumerable<Movie> Posters { get; set; } = new List<Movie>();
+
+  private IEnumerable<Movie> PagedPosters = new List<Movie>();
+
+  public int CurrentPage = 1;
+
+  public int PageSize = 3;
+
+  public int TotalPage;
 
   protected override async Task OnParametersSetAsync()
   {
@@ -45,11 +88,39 @@
 
     if (Genre != null)
     {
+      // Selecting a genre will load the first page for that category
+      Category = Genre;
+      CurrentPage = 1;
+
       Posters = await movietable.ReadRecordByGenre(Genre);
+
+      TotalPage = (int)Math.Ceiling((double)Posters.Count() / PageSize);
+      LoadPage();
     }
     else
     {
+      Category = "All Movies";
       Posters = await movietable.ReadAllRecord();
+
+      TotalPage = (int)Math.Ceiling((double)Posters.Count() / PageSize);
+      LoadPage();
     }
+  }
+
+  private void LoadPage()
+  {
+    PagedPosters = Posters.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
+  }
+
+  private void ChangePage(int page)
+  {
+    CurrentPage = page;
+    LoadPage();
+  }
+
+  private void TargetPage(int pageNumber)
+  {
+    CurrentPage = pageNumber;
+    LoadPage();
   }
 }
